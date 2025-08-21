@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Diagnóstico - DBA Ciencias Naturales (1º a 5º)</title>
+    <style>
+        /* --- Estilos Base --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #2980b9;
+            padding-bottom: 10px;
+            font-size: 2em;
+        }
+         h2 {
+            color: #34495e;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Permite que los botones pasen a la siguiente línea */
+            gap: 10px; /* Espacio entre botones */
+            margin-bottom: 25px;
+        }
+        .nav-buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #2980b9;
+            background-color: #fff;
+            color: #2980b9;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-buttons button.active, .nav-buttons button:hover {
+            background-color: #2980b9;
+            color: #fff;
+        }
+        .grade-content {
+            display: none;
+        }
+        .grade-content.active {
+            display: block;
+        }
+        .dba-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .dba-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start; /* Alinea al inicio para textos largos */
+        }
+        input[type="checkbox"] {
+            margin-right: 12px;
+            flex-shrink: 0; /* Evita que el checkbox se encoja */
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 4px;
+        }
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .calculate-btn:hover {
+            background-color: #229954;
+        }
+        .results-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #27ae60;
+            background-color: #eafaf1;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* --- Estilos para Móviles (Mobile-Friendly) --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Menos espacio en los bordes */
+            }
+            .container {
+                padding: 15px; /* Menos relleno en el contenedor principal */
+            }
+            h1 {
+                font-size: 1.6em; /* Título principal más pequeño */
+            }
+            h2 {
+                font-size: 1.3em; /* Títulos de grado más pequeños */
+            }
+            .nav-buttons button {
+                font-size: 14px; /* Botones ligeramente más pequeños */
+                flex-grow: 1; /* Opcional: hace que los botones llenen el espacio */
+            }
+             li {
+                font-size: 0.95em; /* Texto de la lista un poco más pequeño */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Herramienta de Diagnóstico de Ciencias Naturales</h1>
+        <p style="text-align:center;">Basado en los Derechos Básicos de Aprendizaje (DBA) de Colombia V.1</p>
+
+        <div class="nav-buttons">
+            <button onclick="showGrade('grade-1')" class="active">1er Grado</button>
+            <button onclick="showGrade('grade-2')">2º Grado</button>
+            <button onclick="showGrade('grade-3')">3er Grado</button>
+            <button onclick="showGrade('grade-4')">4º Grado</button>
+            <button onclick="showGrade('grade-5')">5º Grado</button>
+        </div>
+        
+        <!-- Contenido de 1er Grado -->
+        <div id="grade-1" class="grade-content active">
+            <h2>Diagnóstico para Primer Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende que los sentidos le permiten percibir características de los objetos que nos rodean (temperatura, sabor, sonidos, olor, color, texturas y formas).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe y caracteriza, utilizando el sentido apropiado, sonidos, sabores, olores, colores, texturas y formas.</span></li>
+                    <li><input type="checkbox"><span>Compara y describe cambios en las temperaturas (más caliente, similar, menos caliente) utilizando el tacto en diversos objetos.</span></li>
+                    <li><input type="checkbox"><span>Describe y caracteriza, utilizando la vista, diferentes tipos de luz (color, intensidad y fuente).</span></li>
+                    <li><input type="checkbox"><span>Usa instrumentos como la lupa para realizar observaciones de objetos pequeños y representarlos mediante dibujos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Comprende que existe una gran variedad de materiales y que éstos se utilizan para distintos fines, según sus características.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Clasifica materiales de uso cotidiano a partir de características que percibe con los sentidos (flexibilidad, dureza, permeabilidad, etc.).</span></li>
+                    <li><input type="checkbox"><span>Predice cuáles podrían ser los posibles usos de un material de acuerdo con sus características.</span></li>
+                    <li><input type="checkbox"><span>Selecciona qué materiales utilizaría para fabricar un objeto dada cierta necesidad (ej: paraguas).</span></li>
+                    <li><input type="checkbox"><span>Utiliza instrumentos no convencionales (manos, palos, cuerdas, vasos) para medir y clasificar materiales según su tamaño.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende que los seres vivos (plantas y animales) tienen características comunes y los diferencia de los objetos inertes.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Clasifica seres vivos de su entorno según sus características observables (tamaño, cubierta corporal, etc.) y los diferencia de objetos inertes.</span></li>
+                    <li><input type="checkbox"><span>Compara características y partes de plantas y animales, utilizando instrumentos simples como la lupa.</span></li>
+                    <li><input type="checkbox"><span>Describe las partes de las plantas y de animales de su entorno, según características observables.</span></li>
+                    <li><input type="checkbox"><span>Propone acciones de cuidado a plantas y animales, teniendo en cuenta su tipo de alimentación y ciclos de vida.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Comprende que su cuerpo experimenta constantes cambios y reconoce que tiene características similares y diferentes a las de sus padres y compañeros.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Registra cambios físicos ocurridos en su cuerpo durante el crecimiento (peso, talla, etc.).</span></li>
+                    <li><input type="checkbox"><span>Describe su cuerpo y predice los cambios que se producirán en un futuro, a partir de la comparación entre un niño y un adulto.</span></li>
+                    <li><input type="checkbox"><span>Describe y registra similitudes y diferencias físicas que observa entre niños y niñas de su grado.</span></li>
+                    <li><input type="checkbox"><span>Establece relaciones hereditarias a partir de las características físicas de sus padres, describiendo diferencias y similitudes.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-1" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-1')">Calcular Resultados para 1er Grado</button>
+        </div>
+
+        <!-- Contenido de 2º Grado -->
+        <div id="grade-2" class="grade-content">
+            <h2>Diagnóstico para Segundo Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende que una acción mecánica (fuerza) puede producir distintas deformaciones en un objeto, y que este resiste a las fuerzas de diferente modo.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Compara los cambios de forma que se generan sobre objetos de distintos materiales al someterlos a diferentes acciones (estirar, comprimir, etc.).</span></li>
+                    <li><input type="checkbox"><span>Clasifica los materiales según su resistencia a ser deformados cuando se les aplica una fuerza.</span></li>
+                    <li><input type="checkbox"><span>Predice el tipo de acción requerida para producir una deformación determinada en un cierto material.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Comprende que las sustancias pueden encontrarse en distintos estados (sólido, líquido y gaseoso).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Clasifica materiales de su entorno según su estado (sólidos, líquidos o gases) a partir de sus propiedades básicas.</span></li>
+                    <li><input type="checkbox"><span>Compara las características físicas observables (fluidez, viscosidad, transparencia) de un conjunto de líquidos.</span></li>
+                    <li><input type="checkbox"><span>Reconoce el aire como un material a partir de evidencias de su presencia aunque no se pueda ver.</span></li>
+                </ul>
+            </div>
+             <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende la relación entre las características físicas de plantas y animales con los ambientes en donde viven, teniendo en cuenta sus necesidades básicas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe y clasifica plantas y animales de su entorno, según su tipo de desplazamiento, dieta y protección.</span></li>
+                    <li><input type="checkbox"><span>Explica cómo las características físicas de un animal o planta le ayudan a vivir en un cierto ambiente.</span></li>
+                    <li><input type="checkbox"><span>Predice posibles problemas que podrían ocurrir cuando no se satisfacen las necesidades básicas de plantas y animales.</span></li>
+                    <li><input type="checkbox"><span>Establece relaciones entre las características de los seres vivos y el ambiente donde habitan.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Explica los procesos de cambios físicos que ocurren en el ciclo de vida de plantas y animales de su entorno.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Representa con dibujos los cambios en el desarrollo de plantas, identificando la germinación, floración y aparición de frutos.</span></li>
+                    <li><input type="checkbox"><span>Representa con dibujos los cambios en el desarrollo de los animales, identificando el crecimiento y la reproducción.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-2" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-2')">Calcular Resultados para 2º Grado</button>
+        </div>
+
+        <!-- Contenido de 3er Grado -->
+        <div id="grade-3" class="grade-content">
+             <h2>Diagnóstico para Tercer Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende la forma en que se propaga la luz a través de diferentes materiales (opacos, transparentes, translúcidos y reflectivos).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Compara distintos materiales de acuerdo con la cantidad de luz que dejan pasar.</span></li>
+                    <li><input type="checkbox"><span>Selecciona la fuente apropiada para iluminar una superficie, teniendo en cuenta que la luz viaja en línea recta.</span></li>
+                    <li><input type="checkbox"><span>Describe las precauciones que debe tener frente a la exposición de los ojos a rayos de luz directa.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Comprende la forma en que se produce la sombra y la relación de su tamaño con las distancias entre la fuente de luz, el objeto y el lugar.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Predice dónde se producirá la sombra de acuerdo con la posición de la fuente de luz y del objeto.</span></li>
+                    <li><input type="checkbox"><span>Desplaza la fuente de luz y el objeto para aumentar o reducir el tamaño de la sombra.</span></li>
+                    <li><input type="checkbox"><span>Explica los datos obtenidos de lo que sucede con el tamaño de la sombra al variar la distancia a la fuente de luz.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende la naturaleza (vibración) y las características del sonido (altura, timbre, intensidad) y que este se propaga en distintos medios.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Demuestra que el sonido es una vibración mediante el uso de fuentes para producirlo (cuerdas, parches, etc.).</span></li>
+                    <li><input type="checkbox"><span>Describe y compara sonidos según su altura (grave o agudo) y su intensidad (fuerte o débil).</span></li>
+                    <li><input type="checkbox"><span>Compara y describe cómo se atenúa el sonido al pasar por diferentes medios (agua, aire, sólidos).</span></li>
+                    <li><input type="checkbox"><span>Clasifica materiales de acuerdo con la manera como atenúan un sonido.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Comprende la influencia de la variación de la temperatura en los cambios de estado de la materia, considerando el caso del agua.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Interpreta los resultados de experimentos sobre los cambios de estado del agua al variar la temperatura.</span></li>
+                    <li><input type="checkbox"><span>Explica fenómenos cotidianos en los que se manifiesta el cambio de estado del agua (evaporación, vidrios empañados).</span></li>
+                    <li><input type="checkbox"><span>Utiliza instrumentos convencionales (balanza, probeta, termómetro) para hacer mediciones y diseñar experiencias sobre cambios de estado.</span></li>
+                </ul>
+            </div>
+             <div class="dba-section">
+                <p class="dba-title">DBA 5: Explica la influencia de los factores abióticos (luz, temperatura, suelo y aire) en el desarrollo de los factores bióticos (fauna y flora) de un ecosistema.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Diferencia los factores bióticos (plantas y animales) de los abióticos (luz, agua, temperatura, suelo y aire) de un ecosistema de su región.</span></li>
+                    <li><input type="checkbox"><span>Interpreta el ecosistema de su región describiendo relaciones entre factores bióticos y abióticos.</span></li>
+                    <li><input type="checkbox"><span>Predice los efectos que ocurren en los organismos al alterarse un factor abiótico en un ecosistema.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Comprende las relaciones de los seres vivos con otros organismos de su entorno (intra e interespecíficas) y las explica como esenciales para su supervivencia.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Interpreta las relaciones de competencia, depredación, parasitismo, mutualismo, etc., como esenciales para la supervivencia.</span></li>
+                    <li><input type="checkbox"><span>Observa y describe características que le permiten a algunos organismos camuflarse con el entorno.</span></li>
+                    <li><input type="checkbox"><span>Predice qué ocurrirá con otros organismos del mismo ecosistema, dada una variación en sus condiciones ambientales.</span></li>
+                    <li><input type="checkbox"><span>Describe y registra las relaciones intra e interespecíficas que le permiten sobrevivir como ser humano en un ecosistema.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-3" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-3')">Calcular Resultados para 3er Grado</button>
+        </div>
+
+        <!-- Contenido de 4º Grado -->
+        <div id="grade-4" class="grade-content">
+             <h2>Diagnóstico para Cuarto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende que la magnitud y la dirección en que se aplica una fuerza puede producir cambios en la forma como se mueve un objeto (dirección y rapidez).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe las características de las fuerzas (magnitud y dirección) que se deben aplicar para producir un efecto dado (detener, acelerar, etc.).</span></li>
+                    <li><input type="checkbox"><span>Indica cuándo una fuerza aplicada sobre un cuerpo no produce cambios en su estado de reposo o movimiento.</span></li>
+                    <li><input type="checkbox"><span>Comunica resultados sobre los efectos de la fuerza de fricción en el movimiento de los objetos.</span></li>
+                    <li><input type="checkbox"><span>Predice y explica en cuál de diferentes superficies (lisas, rugosas) un cuerpo puede mantenerse por más tiempo en movimiento.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Comprende los efectos y las ventajas de utilizar máquinas simples en diferentes tareas que requieren la aplicación de una fuerza.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explora cómo los cambios en el tamaño de una palanca o la posición del punto de apoyo afectan las fuerzas.</span></li>
+                    <li><input type="checkbox"><span>Describe la función que cumplen fuerzas en una máquina simple para generar movimiento.</span></li>
+                    <li><input type="checkbox"><span>Identifica máquinas simples en objetos cotidianos para explicar su utilidad.</span></li>
+                    <li><input type="checkbox"><span>Identifica y describe palancas presentes en su cuerpo, conformadas por sus sistemas óseo y muscular.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende que el fenómeno del día y la noche se debe a que la Tierra rota sobre su eje y en consecuencia el sol sólo ilumina la mitad de su superficie.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Registra y realiza dibujos de las sombras que proyecta un objeto en diferentes momentos del día.</span></li>
+                    <li><input type="checkbox"><span>Explica cómo se producen el día y la noche por medio de una maqueta o modelo de la Tierra y del Sol.</span></li>
+                    <li><input type="checkbox"><span>Observa y registra patrones de regularidad (ciclo del día y la noche) y elabora tablas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Comprende que las fases de la Luna se deben a la posición relativa del Sol, la Luna y la Tierra a lo largo del mes.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Realiza observaciones de la forma de la Luna y las registra mediante dibujos, explicando cómo varían.</span></li>
+                    <li><input type="checkbox"><span>Predice cuál sería la fase de la Luna que un observador vería, dada una cierta posición relativa entre la Tierra, el Sol y la Luna.</span></li>
+                </ul>
+            </div>
+             <div class="dba-section">
+                <p class="dba-title">DBA 5: Comprende que existen distintos tipos de mezclas que pueden separarse mediante diferentes técnicas (filtración, tamizado, decantación, evaporación).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Clasifica como homogénea o heterogénea una mezcla dada, a partir del número de fases observadas.</span></li>
+                    <li><input type="checkbox"><span>Selecciona las técnicas para separar una mezcla dada, de acuerdo con las propiedades de sus componentes.</span></li>
+                    <li><input type="checkbox"><span>Predice el tipo de mezcla que se producirá a partir de la combinación de materiales.</span></li>
+                </ul>
+            </div>
+             <div class="dba-section">
+                <p class="dba-title">DBA 6: Comprende que los organismos cumplen distintas funciones en cada uno de los niveles tróficos y que las relaciones entre ellos pueden representarse en cadenas y redes alimenticias.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica los niveles tróficos en cadenas y redes alimenticias y establece la función de cada uno en un ecosistema.</span></li>
+                    <li><input type="checkbox"><span>Indica qué puede ocurrir con las poblaciones de una red alimenticia cuando se altera cualquiera de sus niveles.</span></li>
+                    <li><input type="checkbox"><span>Representa cadenas, pirámides o redes tróficas para establecer relaciones entre los niveles tróficos.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-4" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-4')">Calcular Resultados para 4º Grado</button>
+        </div>
+
+        <!-- Contenido de 5º Grado -->
+        <div id="grade-5" class="grade-content">
+            <h2>Diagnóstico para Quinto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende que un circuito eléctrico básico está formado por un generador (pila), conductores (cables) y dispositivos (bombillos, motores), para que funcionen y produzcan efectos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Realiza circuitos eléctricos simples y los representa utilizando los símbolos apropiados.</span></li>
+                    <li><input type="checkbox"><span>Identifica y soluciona dificultades cuando construye un circuito que no funciona.</span></li>
+                    <li><input type="checkbox"><span>Identifica los diferentes efectos que se producen en un circuito (luz, calor, movimiento, sonido).</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Comprende que algunos materiales son buenos conductores de la corriente eléctrica y otros no (aislantes) y que el paso de la corriente siempre genera calor.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Construye experimentalmente circuitos sencillos para establecer qué materiales son buenos conductores de la corriente eléctrica y cuáles no.</span></li>
+                    <li><input type="checkbox"><span>Identifica, en un conjunto de materiales dados, cuáles son buenos conductores y cuáles son aislantes.</span></li>
+                    <li><input type="checkbox"><span>Explica por qué algunos objetos se fabrican con ciertos materiales en función de su capacidad para conducir electricidad.</span></li>
+                    <li><input type="checkbox"><span>Verifica, con el tacto, que los componentes de un circuito se calientan cuando están funcionando.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende que los sistemas del cuerpo humano están formados por órganos, tejidos y células y que la estructura de cada tipo de célula está relacionada con la función del tejido.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explica la estructura (órganos, tejidos y células) y las funciones de los sistemas de su cuerpo.</span></li>
+                    <li><input type="checkbox"><span>Relaciona el funcionamiento de los tejidos de un ser vivo con los tipos de células que posee.</span></li>
+                    <li><input type="checkbox"><span>Asocia el cuidado de sus sistemas con una alimentación e higiene adecuadas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Comprende que en los seres humanos la nutrición involucra el funcionamiento integrado de un conjunto de sistemas: digestivo, respiratorio y circulatorio.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explica el camino que siguen los alimentos en el organismo y los cambios que sufren durante la digestión.</span></li>
+                    <li><input type="checkbox"><span>Relaciona las características de los órganos del sistema digestivo de diferentes organismos con los tipos de alimento que consumen.</span></li>
+                    <li><input type="checkbox"><span>Explica por qué al hacer ejercicio físico aumentan la frecuencia cardíaca y la respiratoria, y lo vincula con la obtención de energía.</span></li>
+                    <li><input type="checkbox"><span>Explica el intercambio gaseoso que ocurre en los alvéolos pulmonares, entre la sangre y el aire.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-5" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-5')">Calcular Resultados para 5º Grado</button>
+        </div>
+
+    </div>
+
+    <script>
+        function showGrade(gradeId) {
+            // Ocultar todo el contenido de los grados
+            const allGrades = document.querySelectorAll('.grade-content');
+            allGrades.forEach(grade => {
+                grade.classList.remove('active');
+            });
+
+            // Ocultar todas las cajas de resultados
+            const allResults = document.querySelectorAll('.results-box');
+            allResults.forEach(box => {
+                box.style.display = 'none';
+            });
+            
+            // Mostrar el contenido del grado seleccionado
+            const selectedGrade = document.getElementById(gradeId);
+            selectedGrade.classList.add('active');
+
+            // Actualizar el botón activo
+            const allButtons = document.querySelectorAll('.nav-buttons button');
+            allButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            const activeButton = document.querySelector(`.nav-buttons button[onclick="showGrade('${gradeId}')"]`);
+            activeButton.classList.add('active');
+        }
+
+        function calculateResults(gradeId) {
+            const gradeContainer = document.getElementById(gradeId);
+            const checkboxes = gradeContainer.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            let achieved = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    achieved++;
+                }
+            });
+
+            const percentage = total > 0 ? (achieved / total * 100).toFixed(1) : 0;
+            
+            const gradeName = gradeId.replace('-',' ').replace('g', 'G');
+            const resultsBox = document.getElementById(`results-${gradeId}`);
+            resultsBox.innerHTML = `Resultados para ${gradeName}: <br> <strong>${achieved} de ${total} evidencias logradas (${percentage}%)</strong>`;
+            resultsBox.style.display = 'block';
+        }
+
+        // Inicializar la vista para mostrar el primer grado por defecto
+        document.addEventListener('DOMContentLoaded', () => {
+            showGrade('grade-1');
+        });
+    </script>
+
+</body>
+</html>

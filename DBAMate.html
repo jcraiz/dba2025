@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Diagnóstico - DBA Matemáticas (1º a 5º)</title>
+    <style>
+        /* --- Estilos Base --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #2980b9;
+            padding-bottom: 10px;
+            font-size: 2em;
+        }
+         h2 {
+            color: #34495e;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Permite que los botones pasen a la siguiente línea */
+            gap: 10px; /* Espacio entre botones */
+            margin-bottom: 25px;
+        }
+        .nav-buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #2980b9;
+            background-color: #fff;
+            color: #2980b9;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-buttons button.active, .nav-buttons button:hover {
+            background-color: #2980b9;
+            color: #fff;
+        }
+        .grade-content {
+            display: none;
+        }
+        .grade-content.active {
+            display: block;
+        }
+        .dba-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .dba-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start; /* Alinea al inicio para textos largos */
+        }
+        input[type="checkbox"] {
+            margin-right: 12px;
+            flex-shrink: 0; /* Evita que el checkbox se encoja */
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 4px;
+        }
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .calculate-btn:hover {
+            background-color: #229954;
+        }
+        .results-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #27ae60;
+            background-color: #eafaf1;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* --- Estilos para Móviles (Mobile-Friendly) --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Menos espacio en los bordes */
+            }
+            .container {
+                padding: 15px; /* Menos relleno en el contenedor principal */
+            }
+            h1 {
+                font-size: 1.6em; /* Título principal más pequeño */
+            }
+            h2 {
+                font-size: 1.3em; /* Títulos de grado más pequeños */
+            }
+            .nav-buttons button {
+                font-size: 14px; /* Botones ligeramente más pequeños */
+                flex-grow: 1; /* Opcional: hace que los botones llenen el espacio */
+            }
+             li {
+                font-size: 0.95em; /* Texto de la lista un poco más pequeño */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Herramienta de Diagnóstico de Matemáticas</h1>
+        <p style="text-align:center;">Basado en los Derechos Básicos de Aprendizaje (DBA) de Colombia V.2</p>
+
+        <div class="nav-buttons">
+            <button onclick="showGrade('grade-1')" class="active">1er Grado</button>
+            <button onclick="showGrade('grade-2')">2º Grado</button>
+            <button onclick="showGrade('grade-3')">3er Grado</button>
+            <button onclick="showGrade('grade-4')">4º Grado</button>
+            <button onclick="showGrade('grade-5')">5º Grado</button>
+        </div>
+        
+        <!-- Contenido de 1er Grado -->
+        <div id="grade-1" class="grade-content active">
+            <h2>Diagnóstico para Primer Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Identifica los usos de los números (como código, cardinal, medida, ordinal) y las operaciones (suma y resta) en contextos de juego, familiares, económicos, entre otros.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Construye e interpreta representaciones pictóricas y diagramas para representar relaciones entre cantidades.</span></li>
+                    <li><input type="checkbox"><span>Explica cómo y por qué es posible hacer una operación (suma o resta) en relación con los usos de los números y el contexto.</span></li>
+                    <li><input type="checkbox"><span>Reconoce en sus actuaciones cotidianas posibilidades de uso de los números y las operaciones.</span></li>
+                    <li><input type="checkbox"><span>Interpreta y resuelve problemas de juntar, quitar y completar, que involucren la cantidad de elementos o la medida de magnitudes.</span></li>
+                    <li><input type="checkbox"><span>Utiliza las operaciones (suma y resta) para representar el cambio en una cantidad.</span></li>
+                </ul>
+            </div>
+             <div class="dba-section">
+                <p class="dba-title">DBA 2: Utiliza diferentes estrategias para contar, realizar operaciones (suma y resta) y resolver problemas aditivos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Realiza conteos (de uno en uno, de dos en dos, etc.) iniciando en cualquier número.</span></li>
+                    <li><input type="checkbox"><span>Determina la cantidad de elementos de una colección agrupándolos de 1 en 1, de 2 en 2, de 5 en 5.</span></li>
+                    <li><input type="checkbox"><span>Describe y resuelve situaciones variadas con las operaciones de suma y resta.</span></li>
+                    <li><input type="checkbox"><span>Establece y argumenta conjeturas de los posibles resultados en una secuencia numérica.</span></li>
+                    <li><input type="checkbox"><span>Utiliza las características del sistema decimal de numeración para crear estrategias de cálculo y estimación de sumas y restas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Utiliza las características posicionales del Sistema de Numeración Decimal (SND) para establecer relaciones entre cantidades y comparar números.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Realiza composiciones y descomposiciones de números de dos dígitos en términos de "dieces" y "unos".</span></li>
+                    <li><input type="checkbox"><span>Encuentra parejas de números que al adicionarse dan como resultado otro número dado.</span></li>
+                    <li><input type="checkbox"><span>Halla los números correspondientes a tener “diez más” o “diez menos” que una cantidad determinada.</span></li>
+                    <li><input type="checkbox"><span>Emplea estrategias de cálculo como “el paso por el diez” para realizar adiciones o sustracciones.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Reconoce y compara atributos que pueden ser medidos en objetos y eventos (longitud, duración, rapidez, masa, peso, capacidad, etc.).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica atributos que se pueden medir en los objetos.</span></li>
+                    <li><input type="checkbox"><span>Diferencia atributos medibles en términos de los instrumentos y las unidades utilizadas para medirlos.</span></li>
+                    <li><input type="checkbox"><span>Compara y ordena objetos de acuerdo con atributos como altura, peso, etc.</span></li>
+                    <li><input type="checkbox"><span>Compara y ordena colecciones según la cantidad de elementos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Realiza medición de longitudes, capacidades, peso, masa, entre otros, para ello utiliza instrumentos y unidades no estandarizadas y estandarizadas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Mide longitudes con diferentes instrumentos y expresa el resultado en unidades estandarizadas o no estandarizadas.</span></li>
+                    <li><input type="checkbox"><span>Compara objetos a partir de su longitud, masa, capacidad y duración de eventos.</span></li>
+                    <li><input type="checkbox"><span>Toma decisiones a partir de las mediciones realizadas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Compara objetos del entorno y establece semejanzas y diferencias empleando características geométricas de las formas bidimensionales y tridimensionales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Crea, compone y descompone formas bidimensionales y tridimensionales (con plastilina, papel, etc.).</span></li>
+                    <li><input type="checkbox"><span>Describe de forma verbal las cualidades y propiedades de un objeto relativas a su forma.</span></li>
+                    <li><input type="checkbox"><span>Agrupa objetos de su entorno de acuerdo con las semejanzas y las diferencias en la forma y el tamaño.</span></li>
+                    <li><input type="checkbox"><span>Identifica objetos a partir de descripciones verbales de sus características geométricas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Describe y representa trayectorias y posiciones de objetos y personas para orientar a otros o a sí mismo en el espacio circundante.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza representaciones como planos para ubicarse en el espacio.</span></li>
+                    <li><input type="checkbox"><span>Toma decisiones a partir de la ubicación espacial.</span></li>
+                    <li><input type="checkbox"><span>Dibuja recorridos, para ello considera los ángulos y la lateralidad.</span></li>
+                    <li><input type="checkbox"><span>Compara distancias a partir de la observación del plano al estimar con pasos, baldosas, etc.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Describe cualitativamente situaciones para identificar el cambio y la variación usando gestos, dibujos, diagramas, medios gráficos y simbólicos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica y nombra diferencias entre objetos o grupos de objetos.</span></li>
+                    <li><input type="checkbox"><span>Comunica las características identificadas y justifica las diferencias que encuentra.</span></li>
+                    <li><input type="checkbox"><span>Establece relaciones de dependencia entre magnitudes.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 9: Reconoce el signo igual como una equivalencia entre expresiones con sumas y restas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Propone números que satisfacen una igualdad con sumas y restas.</span></li>
+                    <li><input type="checkbox"><span>Describe las características de los números que deben ubicarse en una ecuación para que satisfaga la igualdad.</span></li>
+                    <li><input type="checkbox"><span>Argumenta sobre el uso de la propiedad transitiva en un conjunto de igualdades.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 10: Clasifica y organiza datos, los representa utilizando tablas de conteo y pictogramas sin escalas, y comunica los resultados.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica en fichas u objetos reales los valores de la variable en estudio.</span></li>
+                    <li><input type="checkbox"><span>Organiza los datos en tablas de conteo y/o en pictogramas sin escala.</span></li>
+                    <li><input type="checkbox"><span>Lee la información presentada en tablas de conteo y/o pictogramas sin escala (1 a 1).</span></li>
+                    <li><input type="checkbox"><span>Comunica los resultados respondiendo preguntas sencillas.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-1" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-1')">Calcular Resultados para 1er Grado</button>
+        </div>
+
+        <!-- Contenido de 2º Grado -->
+        <div id="grade-2" class="grade-content">
+            <h2>Diagnóstico para Segundo Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Interpreta, propone y resuelve problemas aditivos (de composición, transformación y relación) y problemas multiplicativos sencillos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Interpreta y construye diagramas para representar relaciones aditivas y multiplicativas.</span></li>
+                    <li><input type="checkbox"><span>Describe y resuelve situaciones variadas con las operaciones de suma y resta.</span></li>
+                    <li><input type="checkbox"><span>Reconoce en diferentes situaciones relaciones aditivas y multiplicativas y formula problemas a partir de ellas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Utiliza diferentes estrategias para calcular (agrupar, representar elementos en colecciones, etc.) o estimar el resultado de una suma y resta, multiplicación o reparto equitativo.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Construye representaciones pictóricas y establece relaciones entre las cantidades involucradas.</span></li>
+                    <li><input type="checkbox"><span>Usa algoritmos no convencionales para calcular o estimar el resultado de sumas, restas, multiplicaciones y divisiones.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Utiliza el Sistema de Numeración Decimal para comparar, ordenar y establecer diferentes relaciones entre dos o más secuencias de números.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Compara y ordena números de menor a mayor y viceversa a través de recursos como la calculadora, material gráfico, etc.</span></li>
+                    <li><input type="checkbox"><span>Propone ejemplos y comunica las condiciones para conservar una relación (mayor que, menor que) cuando se aplican operaciones a ellos.</span></li>
+                    <li><input type="checkbox"><span>Reconoce y establece relaciones entre expresiones numéricas y describe el tipo de operaciones que debe realizarse para conservar la relación.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Compara y explica características que se pueden medir, en la resolución de problemas relativos a longitud, superficie, velocidad, peso o duración.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza instrumentos y unidades de medición apropiados para medir magnitudes diferentes.</span></li>
+                    <li><input type="checkbox"><span>Describe los procedimientos necesarios para medir longitudes, superficies, capacidades, pesos y duración.</span></li>
+                    <li><input type="checkbox"><span>Mide magnitudes con unidades arbitrarias y estandarizadas.</span></li>
+                    <li><input type="checkbox"><span>Estima la medida de diferentes magnitudes en situaciones prácticas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Utiliza patrones, unidades e instrumentos convencionales y no convencionales en procesos de medición, cálculo y estimación de magnitudes.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe objetos y eventos de acuerdo con atributos medibles: superficie, tiempo, longitud, peso, ángulos.</span></li>
+                    <li><input type="checkbox"><span>Realiza mediciones con instrumentos y unidades no convencionales (pasos, cuartas) y convencionales (metros).</span></li>
+                    <li><input type="checkbox"><span>Compara eventos según su duración, para ello utiliza relojes convencionales.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Clasifica, describe y representa objetos del entorno a partir de sus propiedades geométricas para establecer relaciones.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce las figuras geométricas según el número de lados.</span></li>
+                    <li><input type="checkbox"><span>Diferencia los cuerpos geométricos.</span></li>
+                    <li><input type="checkbox"><span>Compara figuras y cuerpos geométricos y establece relaciones y diferencias entre ambos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Describe desplazamientos y referencia la posición de un objeto mediante nociones de horizontalidad, verticalidad, paralelismo y perpendicularidad.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe desplazamientos a partir de las posiciones de las líneas.</span></li>
+                    <li><input type="checkbox"><span>Representa líneas y reconoce las diferentes posiciones y la relación entre ellas.</span></li>
+                    <li><input type="checkbox"><span>Identifica posiciones de objetos, aristas o líneas que son paralelas, verticales o perpendiculares.</span></li>
+                    <li><input type="checkbox"><span>Argumenta las diferencias entre las posiciones de las líneas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Propone e identifica patrones y utiliza propiedades de los números y de las operaciones para calcular valores desconocidos en expresiones aritméticas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Establece relaciones de reversibilidad entre la suma y la resta.</span></li>
+                    <li><input type="checkbox"><span>Utiliza diferentes procedimientos para calcular un valor desconocido.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 9: Opera sobre secuencias numéricas para encontrar números u operaciones faltantes y utiliza las propiedades de las operaciones.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza las propiedades de las operaciones para encontrar números desconocidos en igualdades numéricas.</span></li>
+                    <li><input type="checkbox"><span>Utiliza las propiedades de las operaciones para encontrar operaciones faltantes en un proceso de cálculo.</span></li>
+                    <li><input type="checkbox"><span>Reconoce que un número puede escribirse de varias maneras equivalentes.</span></li>
+                    <li><input type="checkbox"><span>Utiliza ensayo y error para encontrar valores u operaciones desconocidas.</span></li>
+                </ul>
+            </div>
+             <div class="dba-section">
+                <p class="dba-title">DBA 10: Clasifica y organiza datos, los representa utilizando tablas de conteo, pictogramas con escalas y gráficos de puntos, comunica los resultados.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica la equivalencia de fichas u objetos con el valor de la variable.</span></li>
+                    <li><input type="checkbox"><span>Organiza los datos en tablas de conteo y en pictogramas con escala (uno a muchos).</span></li>
+                    <li><input type="checkbox"><span>Lee la información presentada en tablas de conteo, pictogramas con escala y gráficos de puntos.</span></li>
+                    <li><input type="checkbox"><span>Comunica los resultados respondiendo preguntas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 11: Explica, a partir de la experiencia, la posibilidad de ocurrencia o no de un evento cotidiano y el resultado lo utiliza para predecir la ocurrencia de otros eventos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Diferencia situaciones cotidianas cuyo resultado puede ser incierto de aquellas cuyo resultado es conocido o seguro.</span></li>
+                    <li><input type="checkbox"><span>Identifica resultados posibles o imposibles, según corresponda, en una situación cotidiana.</span></li>
+                    <li><input type="checkbox"><span>Predice la ocurrencia o no de eventos cotidianos basado en sus observaciones.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-2" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-2')">Calcular Resultados para 2º Grado</button>
+        </div>
+
+        <!-- Contenido de 3er Grado -->
+        <div id="grade-3" class="grade-content">
+             <h2>Diagnóstico para Tercer Grado</h2>
+             <div class="dba-section">
+                <p class="dba-title">DBA 1: Interpreta, formula y resuelve problemas aditivos de composición, transformación y comparación; y multiplicativos, directos e inversos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Construye diagramas para representar las relaciones observadas entre las cantidades.</span></li>
+                    <li><input type="checkbox"><span>Resuelve problemas aditivos (suma o resta) y multiplicativos (multiplicación o división).</span></li>
+                    <li><input type="checkbox"><span>Propone estrategias para calcular el número de combinaciones posibles de un conjunto de atributos.</span></li>
+                    <li><input type="checkbox"><span>Analiza los resultados ofrecidos por el cálculo matemático e identifica si es o no plausible.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Propone, desarrolla y justifica estrategias para hacer estimaciones y cálculos con operaciones básicas en la solución de problemas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza las propiedades de las operaciones y del Sistema de Numeración Decimal para justificar acciones (descomposición, duplicar, etc.).</span></li>
+                    <li><input type="checkbox"><span>Reconoce el uso de las operaciones para calcular la medida (compuesta) de diferentes objetos de su entorno.</span></li>
+                    <li><input type="checkbox"><span>Argumenta cuáles atributos de los objetos pueden ser medidos mediante la comparación directa y cuáles calculados con operaciones.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Establece comparaciones entre cantidades y expresiones que involucran operaciones y relaciones aditivas y multiplicativas y sus representaciones numéricas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Realiza mediciones de un mismo objeto con otros de diferente tamaño y establece equivalencias.</span></li>
+                    <li><input type="checkbox"><span>Utiliza las razones y fracciones como una manera de establecer comparaciones entre dos cantidades.</span></li>
+                    <li><input type="checkbox"><span>Propone ejemplos de cantidades que se relacionan entre sí según correspondan a una fracción dada.</span></li>
+                    <li><input type="checkbox"><span>Utiliza fracciones para expresar la relación de “el todo" con algunas de sus "partes".</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Describe y argumenta posibles relaciones entre los valores del área y el perímetro de figuras planas (especialmente cuadriláteros).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Toma decisiones sobre la magnitud a medir (área o longitud) según la necesidad.</span></li>
+                    <li><input type="checkbox"><span>Realiza recubrimientos de superficies con diferentes figuras planas.</span></li>
+                    <li><input type="checkbox"><span>Mide y calcula el área y el perímetro de un rectángulo y expresa el resultado en unidades apropiadas.</span></li>
+                    <li><input type="checkbox"><span>Explica cómo figuras de igual perímetro pueden tener diferente área.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Realiza estimaciones y mediciones de volumen, capacidad, longitud, área, peso de objetos o la duración de eventos como parte del proceso para resolver problemas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Compara objetos según su longitud, área, capacidad, volumen, etc.</span></li>
+                    <li><input type="checkbox"><span>Hace estimaciones de longitud, área, volumen, peso y tiempo según su necesidad.</span></li>
+                    <li><input type="checkbox"><span>Hace estimaciones en presencia y ausencia de los objetos y los instrumentos de medida.</span></li>
+                    <li><input type="checkbox"><span>Empaca objetos en cajas y calcula la cantidad que podría caber, teniendo en cuenta la forma y volumen.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Describe y representa formas bidimensionales y tridimensionales de acuerdo con las propiedades geométricas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Relaciona objetos de su entorno con formas bidimensionales y tridimensionales, nombra y describe sus elementos.</span></li>
+                    <li><input type="checkbox"><span>Clasifica y representa formas bi/tridimensionales tomando en cuenta sus características geométricas comunes.</span></li>
+                    <li><input type="checkbox"><span>Interpreta, compara y justifica propiedades de formas bidimensionales y tridimensionales.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Formula y resuelve problemas que se relacionan con la posición, la dirección y el movimiento de objetos en el entorno.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Localiza objetos o personas a partir de la descripción o representación de una trayectoria.</span></li>
+                    <li><input type="checkbox"><span>Identifica y describe patrones de movimiento de figuras (reflexiones, traslaciones y rotaciones).</span></li>
+                    <li><input type="checkbox"><span>Identifica las propiedades de los objetos que se conservan y las que varían cuando se realizan transformaciones.</span></li>
+                    <li><input type="checkbox"><span>Plantea y resuelve situaciones en las que se requiere analizar las transformaciones de diferentes figuras en el plano.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-3" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-3')">Calcular Resultados para 3er Grado</button>
+        </div>
+
+        <!-- Contenido de 4º Grado -->
+        <div id="grade-4" class="grade-content">
+             <h2>Diagnóstico para Cuarto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Interpreta las fracciones como razón, relación parte todo, cociente y operador en diferentes contextos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe situaciones en las cuales puede usar fracciones y decimales.</span></li>
+                    <li><input type="checkbox"><span>Reconoce situaciones en las que dos cantidades covarían y cuantifica el efecto que los cambios en una de ellas tienen en los cambios de la otra.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Describe y justifica diferentes estrategias para representar, operar y hacer estimaciones con números naturales y racionales (fraccionarios), expresados como fracción o como decimal.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza el sistema de numeración decimal para representar, comparar y operar con números mayores o iguales a 10.000.</span></li>
+                    <li><input type="checkbox"><span>Describe y desarrolla estrategias para calcular sumas y restas basadas en descomposiciones aditivas y multiplicativas.</span></li>
+                    <li><input type="checkbox"><span>Utiliza y justifica algoritmos para realizar operaciones aditivas con representaciones decimales (denominador 10, 100, etc.).</span></li>
+                    <li><input type="checkbox"><span>Identifica y construye fracciones equivalentes a una fracción dada y propone estrategias para calcular sumas y restas de fraccionarios.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Establece relaciones mayor que, menor que, igual que y relaciones multiplicativas entre números racionales en sus formas de fracción o decimal.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Construye y utiliza representaciones pictóricas para comparar números racionales (fracción o decimales).</span></li>
+                    <li><input type="checkbox"><span>Establece, justifica y utiliza criterios para comparar fracciones y decimales.</span></li>
+                    <li><input type="checkbox"><span>Construye y compara expresiones numéricas que contienen decimales y fracciones.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Caracteriza y compara atributos medibles de los objetos con respecto a procedimientos, instrumentos y unidades de medición.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce que para medir capacidad y masa se hacen comparaciones con recipientes y paquetes de diferentes tamaños/masas.</span></li>
+                    <li><input type="checkbox"><span>Diferencia atributos medibles (capacidad, masa, volumen) a partir de los procedimientos e instrumentos para medirlos.</span></li>
+                    <li><input type="checkbox"><span>Identifica unidades y los instrumentos para medir masa y capacidad, y establece relaciones entre ellos.</span></li>
+                    <li><input type="checkbox"><span>Describe procesos para medir capacidades de un recipiente o el peso de un objeto o producto.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Elige instrumentos y unidades estandarizadas y no estandarizadas para estimar y medir y a partir de ellos hace los cálculos necesarios para resolver problemas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Expresa una misma medida en diferentes unidades y establece equivalencias entre ellas.</span></li>
+                    <li><input type="checkbox"><span>Propone diferentes procedimientos para realizar cálculos (suma/resta de medidas, multiplicación/división de una medida y un número).</span></li>
+                    <li><input type="checkbox"><span>Emplea las relaciones de proporcionalidad directa e inversa para resolver diversas situaciones.</span></li>
+                    <li><input type="checkbox"><span>Propone y explica procedimientos para lograr mayor precisión en la medición de cantidades de líquidos, masa, etc.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-4" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-4')">Calcular Resultados para 4º Grado</button>
+        </div>
+
+        <!-- Contenido de 5º Grado -->
+        <div id="grade-5" class="grade-content">
+            <h2>Diagnóstico para Quinto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Interpreta y utiliza los números naturales y racionales en su representación fraccionaria para formular y resolver problemas aditivos, multiplicativos y que involucren potenciación.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Interpreta la relación parte - todo y la representa por medio de fracciones, razones o cocientes.</span></li>
+                    <li><input type="checkbox"><span>Interpreta y utiliza números naturales y racionales (fraccionarios) asociados con un contexto para solucionar problemas.</span></li>
+                    <li><input type="checkbox"><span>Determina las operaciones suficientes y necesarias para solucionar diferentes tipos de problemas.</span></li>
+                    <li><input type="checkbox"><span>Resuelve problemas que requieran reconocer un patrón de medida asociado a un número natural o a un racional (fraccionario).</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Describe y desarrolla estrategias (algoritmos, propiedades de las operaciones) para hacer estimaciones y cálculos al solucionar problemas de potenciación.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza las propiedades de las operaciones para justificar estrategias de cálculo o estimación relacionados con áreas y volúmenes.</span></li>
+                    <li><input type="checkbox"><span>Descompone un número en sus factores primos.</span></li>
+                    <li><input type="checkbox"><span>Identifica y utiliza las propiedades de la potenciación para resolver problemas aritméticos.</span></li>
+                    <li><input type="checkbox"><span>Determina y argumenta acerca de la validez o no de estrategias para calcular potencias.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Compara y ordena números fraccionarios a través de diversas interpretaciones, recursos y representaciones.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Representa fracciones con la ayuda de la recta numérica.</span></li>
+                    <li><input type="checkbox"><span>Determina criterios para ordenar fracciones y expresiones decimales de mayor a menor o viceversa.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Justifica relaciones entre superficie y volumen, respecto a dimensiones de figuras y sólidos, y elige las unidades apropiadas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Determina las medidas reales de una figura a partir de un registro gráfico (un plano).</span></li>
+                    <li><input type="checkbox"><span>Mide superficies y longitudes utilizando diferentes estrategias (composición, recubrimiento, bordeado, cálculo).</span></li>
+                    <li><input type="checkbox"><span>Construye y descompone figuras planas y sólidos a partir de medidas establecidas.</span></li>
+                    <li><input type="checkbox"><span>Realiza estimaciones y mediciones con unidades apropiadas según sea longitud, área o volumen.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Explica las relaciones entre el perímetro y el área de diferentes figuras (variaciones en el perímetro no implican variaciones en el área y viceversa).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Compara diferentes figuras a partir de las medidas de sus lados.</span></li>
+                    <li><input type="checkbox"><span>Calcula las medidas de los lados de una figura a partir de su área.</span></li>
+                    <li><input type="checkbox"><span>Dibuja figuras planas cuando se dan las medidas de los lados.</span></li>
+                    <li><input type="checkbox"><span>Reconoce que figuras con áreas diferentes pueden tener el mismo perímetro.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Identifica y describe propiedades que caracterizan un cuerpo en términos de la bidimensionalidad y la tridimensionalidad y resuelve problemas de composición y descomposición.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Relaciona objetos tridimensionales y sus propiedades con sus respectivos desarrollos planos.</span></li>
+                    <li><input type="checkbox"><span>Determina las mediciones reales de una figura a partir de un registro gráfico (un plano).</span></li>
+                    <li><input type="checkbox"><span>Construye y descompone figuras planas y sólidos a partir de medidas establecidas.</span></li>
+                    <li><input type="checkbox"><span>Reconoce diferentes distribuciones de plantillas de un cuerpo en una superficie (desarrollos planos).</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-5" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-5')">Calcular Resultados para 5º Grado</button>
+        </div>
+
+    </div>
+
+    <script>
+        function showGrade(gradeId) {
+            // Ocultar todo el contenido de los grados
+            const allGrades = document.querySelectorAll('.grade-content');
+            allGrades.forEach(grade => {
+                grade.classList.remove('active');
+            });
+
+            // Ocultar todas las cajas de resultados
+            const allResults = document.querySelectorAll('.results-box');
+            allResults.forEach(box => {
+                box.style.display = 'none';
+            });
+            
+            // Mostrar el contenido del grado seleccionado
+            const selectedGrade = document.getElementById(gradeId);
+            selectedGrade.classList.add('active');
+
+            // Actualizar el botón activo
+            const allButtons = document.querySelectorAll('.nav-buttons button');
+            allButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            const activeButton = document.querySelector(`.nav-buttons button[onclick="showGrade('${gradeId}')"]`);
+            activeButton.classList.add('active');
+        }
+
+        function calculateResults(gradeId) {
+            const gradeContainer = document.getElementById(gradeId);
+            const checkboxes = gradeContainer.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            let achieved = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    achieved++;
+                }
+            });
+
+            const percentage = total > 0 ? (achieved / total * 100).toFixed(1) : 0;
+            
+            const gradeName = gradeId.replace('-',' ').replace('g', 'G');
+            const resultsBox = document.getElementById(`results-${gradeId}`);
+            resultsBox.innerHTML = `Resultados para ${gradeName}: <br> <strong>${achieved} de ${total} evidencias logradas (${percentage}%)</strong>`;
+            resultsBox.style.display = 'block';
+        }
+
+        // Inicializar la vista para mostrar el primer grado por defecto
+        document.addEventListener('DOMContentLoaded', () => {
+            showGrade('grade-1');
+        });
+    </script>
+
+</body>
+</html>
