@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Diagnóstico - DBA Lenguaje (1º a 5º)</title>
+    <style>
+        /* --- Estilos Base --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #16a085; /* Tono azul/verde */
+            border-bottom: 2px solid #1abc9c;
+            padding-bottom: 10px;
+            font-size: 2em;
+        }
+         h2 {
+            color: #2c3e50;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; 
+            gap: 10px; 
+            margin-bottom: 25px;
+        }
+        .nav-buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #1abc9c;
+            background-color: #fff;
+            color: #1abc9c;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-buttons button.active, .nav-buttons button:hover {
+            background-color: #1abc9c;
+            color: #fff;
+        }
+        .grade-content {
+            display: none;
+        }
+        .grade-content.active {
+            display: block;
+        }
+        .dba-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .dba-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        input[type="checkbox"] {
+            margin-right: 12px;
+            flex-shrink: 0; 
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 4px;
+        }
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #16a085;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .calculate-btn:hover {
+            background-color: #117a65;
+        }
+        .results-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #16a085;
+            background-color: #e8f8f5;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* --- Estilos para Móviles --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            .nav-buttons button {
+                font-size: 14px;
+                flex-grow: 1;
+            }
+             li {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Herramienta de Diagnóstico de Lenguaje</h1>
+        <p style="text-align:center;">Basado en los Derechos Básicos de Aprendizaje (DBA) de Colombia V.2</p>
+
+        <div class="nav-buttons">
+            <button onclick="showGrade('grade-1')" class="active">1er Grado</button>
+            <button onclick="showGrade('grade-2')">2º Grado</button>
+            <button onclick="showGrade('grade-3')">3er Grado</button>
+            <button onclick="showGrade('grade-4')">4º Grado</button>
+            <button onclick="showGrade('grade-5')">5º Grado</button>
+        </div>
+
+        <!-- Contenido de 1er Grado -->
+        <div id="grade-1" class="grade-content active">
+            <h2>Diagnóstico para Primer Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Identifica los diferentes medios de comunicación como una posibilidad para informarse, participar y acceder al universo cultural que lo rodea.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Establece semejanzas y diferencias entre los principales medios de comunicación de su contexto (radio, periódicos, TV, etc.).</span></li>
+                    <li><input type="checkbox"><span>Comprende los mensajes emitidos por diferentes medios de comunicación.</span></li>
+                    <li><input type="checkbox"><span>Distingue los medios de comunicación para reconocer los posibles usos que tienen en su entorno.</span></li>
+                    <li><input type="checkbox"><span>Describe los diferentes tipos de voz que se usan en programas radiales y televisivos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Relaciona códigos no verbales, como los movimientos corporales y los gestos, con el significado que pueden tomar de acuerdo con el contexto.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica las intenciones de los gestos y los movimientos corporales de los interlocutores.</span></li>
+                    <li><input type="checkbox"><span>Interpreta ilustraciones e imágenes en relación a sus colores, formas y tamaños.</span></li>
+                    <li><input type="checkbox"><span>Representa objetos, personas y lugares mediante imágenes.</span></li>
+                    <li><input type="checkbox"><span>Reconoce el sentido de algunas cualidades sonoras como la entonación, las pausas y los silencios.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Reconoce en los textos literarios la posibilidad de desarrollar su capacidad creativa y lúdica.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Escucha o lee adivinanzas, anagramas, retahílas, pregones y acrósticos de su entorno cultural.</span></li>
+                    <li><input type="checkbox"><span>Comprende el sentido de los textos de la tradición oral como canciones y cuentos.</span></li>
+                    <li><input type="checkbox"><span>Entiende que hay diferencias en la forma en que se escriben algunos textos como los acrósticos y adivinanzas.</span></li>
+                    <li><input type="checkbox"><span>Interactúa con sus compañeros en dinámicas grupales que incluyen declamación, canto y música.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Interpreta textos literarios como parte de su iniciación en la comprensión de textos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Comparte sus impresiones sobre los textos literarios y las relaciona con situaciones de sus contextos.</span></li>
+                    <li><input type="checkbox"><span>Emplea las imágenes o ilustraciones de los textos literarios para comprenderlos.</span></li>
+                    <li><input type="checkbox"><span>Expresa sus opiniones e impresiones a través de dibujos, caricaturas o canciones.</span></li>
+                    <li><input type="checkbox"><span>Identifica la repetición de algunos sonidos al final de los versos en textos de la tradición oral.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Reconoce las temáticas presentes en los mensajes que escucha, a partir de la diferenciación de los sonidos que componen las palabras.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Extrae información del contexto comunicativo que le permite identificar quién lo produce y en dónde.</span></li>
+                    <li><input type="checkbox"><span>Comprende las temáticas tratadas en diferentes textos que escucha.</span></li>
+                    <li><input type="checkbox"><span>Segmenta los discursos que escucha en unidades significativas como las palabras.</span></li>
+                    <li><input type="checkbox"><span>Identifica los sonidos presentes en las palabras y oraciones para comprender el sentido de lo que oye.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Interpreta diversos textos a partir de la lectura de palabras sencillas y de las imágenes que contienen.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Comprende el propósito de los textos que lee, apoyándose en sus títulos, imágenes e ilustraciones.</span></li>
+                    <li><input type="checkbox"><span>Explica las semejanzas y diferencias entre lo que dice un texto y lo que muestran las imágenes.</span></li>
+                    <li><input type="checkbox"><span>Lee palabras sencillas.</span></li>
+                    <li><input type="checkbox"><span>Identifica la letra o grupo de letras que corresponden con un sonido al momento de pronunciar las palabras escritas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Enuncia textos orales de diferente índole sobre temas de su interés o sugeridos por otros.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Emplea palabras adecuadas según la situación comunicativa en sus conversaciones.</span></li>
+                    <li><input type="checkbox"><span>Expresa sus ideas con claridad, teniendo en cuenta el orden de las palabras.</span></li>
+                    <li><input type="checkbox"><span>Practica las palabras que representan dificultades en su pronunciación y se autocorrige.</span></li>
+                    <li><input type="checkbox"><span>Adecúa el volumen de la voz teniendo en cuenta a su interlocutor y el espacio.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Escribe palabras que le permiten comunicar sus ideas, preferencias y aprendizajes.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Construye textos cortos para relatar, comunicar ideas o hacer peticiones.</span></li>
+                    <li><input type="checkbox"><span>Expresa sus ideas en torno a una sola temática a partir del vocabulario que conoce.</span></li>
+                    <li><input type="checkbox"><span>Elabora listas de palabras parecidas y reconoce las diferencias que guardan entre sí.</span></li>
+                    <li><input type="checkbox"><span>Escribe palabras sencillas y relaciona los sonidos de la lengua con sus diferentes grafemas.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-1" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-1')">Calcular Resultados para 1er Grado</button>
+        </div>
+
+        <!-- Contenido de 2º Grado -->
+        <div id="grade-2" class="grade-content">
+            <h2>Diagnóstico para Segundo Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Identifica las características de los medios de comunicación masiva a los que tiene acceso.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza los medios de comunicación masiva para informarse y manifestar sus puntos de vista.</span></li>
+                    <li><input type="checkbox"><span>Identifica las diferencias y semejanzas entre los contenidos de los diversos medios (radio, TV, prensa).</span></li>
+                    <li><input type="checkbox"><span>Contrasta las características de diferentes medios a partir de la manera como presentan la información.</span></li>
+                    <li><input type="checkbox"><span>Expresa con claridad contenidos propios de los medios de comunicación masiva.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Identifica la función que cumplen las señales y símbolos que aparecen en su entorno.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Utiliza las señales que circulan en su entorno para informar, prevenir, prohibir, instruir y obligar.</span></li>
+                    <li><input type="checkbox"><span>Asocia los dibujos de las señales y símbolos con sus posibles significados.</span></li>
+                    <li><input type="checkbox"><span>Identifica la función de las imágenes en textos como manuales de instrucción, carteles y etiquetas.</span></li>
+                </ul>
+            </div>
+             <div class="dba-section">
+                <p class="dba-title">DBA 3: Identifica algunos elementos constitutivos de textos literarios como personajes, espacios y acciones.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Establece semejanzas y diferencias entre los textos literarios que lee.</span></li>
+                    <li><input type="checkbox"><span>Relaciona los personajes, tiempos, espacios y acciones para dar sentido a la historia narrada.</span></li>
+                    <li><input type="checkbox"><span>Reconoce las principales partes de un texto literario.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Comprende diversos textos literarios a partir de sus propias vivencias.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconstruye las acciones y los espacios donde se desarrolla la narración y atribuye nuevos perfiles a los personajes.</span></li>
+                    <li><input type="checkbox"><span>Elabora hipótesis predictivas del contenido de textos literarios.</span></li>
+                    <li><input type="checkbox"><span>Reconoce el orden lógico de los eventos en una narración.</span></li>
+                    <li><input type="checkbox"><span>Lee en voz alta textos literarios teniendo en cuenta el ritmo, las pausas y la velocidad.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Identifica las palabras relevantes de un mensaje y las agrupa en unidades significativas: sonidos en palabras y palabras en oraciones.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce el propósito comunicativo de su interlocutor de acuerdo con las palabras que emplea.</span></li>
+                    <li><input type="checkbox"><span>Comprende el contenido global de un mensaje.</span></li>
+                    <li><input type="checkbox"><span>Comprende que el cambio de un sonido vocálico o consonántico en una palabra modifica su significado.</span></li>
+                    <li><input type="checkbox"><span>Distingue los sonidos articulados de la lengua de los sonidos ambientales.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Predice y analiza los contenidos y estructuras de diversos tipos de texto, a partir de sus conocimientos previos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Relaciona la información que proporciona el texto con sus conocimientos previos.</span></li>
+                    <li><input type="checkbox"><span>Lee con suficiente fluidez para comprender un escrito.</span></li>
+                    <li><input type="checkbox"><span>Comprende el tema global de los textos que lee y responde preguntas sobre lo que aparece y no aparece.</span></li>
+                    <li><input type="checkbox"><span>Ordena las secuencias presentadas en el texto e identifica las sílabas que componen una palabra.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Expresa sus ideas atendiendo a las características del contexto comunicativo en que las enuncia (interlocutores, temas, lugares).</p>
+                <ul>
+                    <li><input type="checkbox"><span>Participa dentro los espacios de conversación que hay en su entorno.</span></li>
+                    <li><input type="checkbox"><span>Respeta los turnos de uso de la palabra y las ideas expresadas por los interlocutores.</span></li>
+                    <li><input type="checkbox"><span>Selecciona palabras que tienen sentido y relación con las ideas que quiere expresar.</span></li>
+                    <li><input type="checkbox"><span>Emplea distintos ritmos de voz para dar expresividad a sus ideas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Produce diferentes tipos de textos para atender a un propósito comunicativo particular.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Selecciona el tipo de texto que quiere escribir de acuerdo con lo que pretende comunicar.</span></li>
+                    <li><input type="checkbox"><span>Elige palabras adecuadas a una temática y a la redacción de tipos de escrito específicos.</span></li>
+                    <li><input type="checkbox"><span>Escribe oraciones en las que emplea palabras sencillas y complejas.</span></li>
+                    <li><input type="checkbox"><span>Escribe las letras 'b', 'v', 'm', 'n', 'ñ', 'r', y 'rr' según las reglas ortográficas.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-2" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-2')">Calcular Resultados para 2º Grado</button>
+        </div>
+
+        <!-- Contenido de 3er Grado -->
+        <div id="grade-3" class="grade-content">
+            <h2>Diagnóstico para Tercer Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende las funciones que cumplen los medios de comunicación propios de su contexto.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce los usos de los medios con los que se relaciona (periódicos, revistas, noticieros, etc.).</span></li>
+                    <li><input type="checkbox"><span>Compara la información proveniente de diferentes medios de comunicación.</span></li>
+                    <li><input type="checkbox"><span>Diferencia los formatos en los que se presentan los medios de comunicación a los que tiene acceso.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Comprende que algunos escritos y manifestaciones artísticas pueden estar compuestos por texto, sonido e imágenes.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica diversas manifestaciones artísticas (escultura, pintura, danza) y relaciona su contenido con su contexto.</span></li>
+                    <li><input type="checkbox"><span>Interpreta la información difundida en textos no verbales (caricaturas, tiras cómicas, historietas, etc.).</span></li>
+                    <li><input type="checkbox"><span>Comprende que algunos escritos están compuestos por texto y gráficos, esquemas o imágenes.</span></li>
+                    <li><input type="checkbox"><span>Analiza los sonidos que se emplean en diferentes manifestaciones artísticas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Reconoce algunas características de los textos narrativos, tales como el concepto de narrador y estructura narrativa.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Diferencia entre textos ficcionales y no ficcionales.</span></li>
+                    <li><input type="checkbox"><span>Verifica las hipótesis que plantea acerca del contenido de los textos que lee.</span></li>
+                    <li><input type="checkbox"><span>Identifica la voz que narra una historia.</span></li>
+                    <li><input type="checkbox"><span>Comparte con sus compañeros los textos con los que interactúa, usando entonación y gesticulación.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Escribe textos literarios coherentes, atendiendo a las características textuales e integrando sus saberes e intereses.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Comprende las características de un texto cuyo propósito es narrar un hecho o expresar ideas.</span></li>
+                    <li><input type="checkbox"><span>Establece una relación de correspondencia entre los personajes, las acciones y los contextos.</span></li>
+                    <li><input type="checkbox"><span>Crea personajes para sus historias y describe cómo son, dónde viven y qué problemas deben enfrentar.</span></li>
+                    <li><input type="checkbox"><span>Construye planes textuales para sus escribir textos literarios.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Identifica el papel del emisor y el receptor y sus propósitos comunicativos en una situación específica.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Asocia la intención comunicativa con el contexto en el que se producen los enunciados.</span></li>
+                    <li><input type="checkbox"><span>Infiere el significado de palabras desconocidas, según el contexto donde se encuentren.</span></li>
+                    <li><input type="checkbox"><span>Organiza secuencialmente las ideas que comprende de un texto oral.</span></li>
+                    <li><input type="checkbox"><span>Deduce información de un emisor (edad, sexo, actitud) a partir de las características de su voz.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Interpreta el contenido y la estructura del texto, respondiendo preguntas de orden inferencial y crítico.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Ubica el contenido de un texto en relación con la situación comunicativa en que se presenta.</span></li>
+                    <li><input type="checkbox"><span>Utiliza el contexto para inferir información.</span></li>
+                    <li><input type="checkbox"><span>Discrimina los temas principales de un texto de los menos relevantes.</span></li>
+                    <li><input type="checkbox"><span>Reconoce las diferencias en las estructuras de diferentes tipos de escrito.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Produce textos orales breves de diferente tipo ajustando el volumen, el tono de la voz y los movimientos corporales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Participa en comunicaciones orales atendiendo a diferentes propósitos (narrar, argumentar, exponer).</span></li>
+                    <li><input type="checkbox"><span>Elige las expresiones más pertinentes para dar claridad a sus intervenciones.</span></li>
+                    <li><input type="checkbox"><span>Reconoce los roles de quien produce y de quien interpreta un texto.</span></li>
+                    <li><input type="checkbox"><span>Realiza cambios en la modulación de la voz para acompañar el sentido de lo que comunica.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Produce textos verbales y no verbales en los que tiene en cuenta aspectos gramaticales y ortográficos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Escribe diversos tipos de texto (cartas, afiches, cuentos) para expresar sus opiniones.</span></li>
+                    <li><input type="checkbox"><span>Selecciona las palabras o expresiones más indicadas para escribir sus textos.</span></li>
+                    <li><input type="checkbox"><span>Diseña un plan para comunicarse con otros teniendo en cuenta la concordancia verbal y la ortografía.</span></li>
+                    <li><input type="checkbox"><span>Reconoce que algunos sonidos se corresponden con diferentes grafemas (C, S, Z, K, Q).</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-3" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-3')">Calcular Resultados para 3er Grado</button>
+        </div>
+
+        <!-- Contenido de 4º Grado -->
+        <div id="grade-4" class="grade-content">
+            <h2>Diagnóstico para Cuarto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Analiza la información presentada por los diferentes medios de comunicación con los cuales interactúa.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Compara la información presentada por diversos medios (radio y TV) sobre una misma noticia.</span></li>
+                    <li><input type="checkbox"><span>Reconoce las relaciones de contenido de diferentes textos informativos (qué ocurrió, a quiénes, cuándo, dónde).</span></li>
+                    <li><input type="checkbox"><span>Identifica las diferentes estructuras por medio de las que los medios de comunicación masiva presentan información.</span></li>
+                    <li><input type="checkbox"><span>Dialoga sobre el contenido de los textos informativos con claridad y fluidez.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Escribe textos a partir de información dispuesta en imágenes, fotografías, manifestaciones artísticas o conversaciones cotidianas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Emplea elementos no verbales en los textos que escribe para enfatizar una intención comunicativa.</span></li>
+                    <li><input type="checkbox"><span>Comprende el sentido de las manifestaciones no verbales presentes en canciones, afiches y conversaciones.</span></li>
+                    <li><input type="checkbox"><span>Complementa sus escritos por medio de secuencias de imágenes o dibujos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Crea textos literarios en los que articula lecturas previas e impresiones sobre un tema o situación.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica el contexto en que se crea una obra literaria y lo relaciona con sus conocimientos.</span></li>
+                    <li><input type="checkbox"><span>Reconoce los temas que aborda un texto literario y sus vínculos con la vida cotidiana y escolar.</span></li>
+                    <li><input type="checkbox"><span>Emplea figuras literarias en la producción de textos literarios.</span></li>
+                    <li><input type="checkbox"><span>Produce textos literarios atendiendo a un género específico.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Construye textos poéticos, empleando algunas figuras literarias.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Observa la realidad como punto de partida para la creación de textos poéticos.</span></li>
+                    <li><input type="checkbox"><span>Reconstruye el sentido de los poemas a partir de la identificación de sus figuras literarias.</span></li>
+                    <li><input type="checkbox"><span>Escribe poemas usando figuras literarias como la metáfora, el símil y la personificación.</span></li>
+                    <li><input type="checkbox"><span>Declama poemas teniendo en cuenta la pronunciación y entonación necesaria para expresar emociones.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Interpreta el tono del discurso de su interlocutor, a partir de las características de la voz, del ritmo, de las pausas y de la entonación.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Comprende los temas tratados en espacios de discusión y los incorpora en su discurso.</span></li>
+                    <li><input type="checkbox"><span>Establece intercambios en discursos orales a partir de lecturas previas y discusiones.</span></li>
+                    <li><input type="checkbox"><span>Identifica las palabras que ordenan un discurso (introducción, desarrollo y cierre).</span></li>
+                    <li><input type="checkbox"><span>Nota el tono y el estado de ánimo del emisor a partir del ritmo, las pausas y la velocidad de su discurso.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Organiza la información que encuentra en los textos que lee, utilizando técnicas para el procesamiento de la información.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Comprende la intención comunicativa de diferentes tipos de texto.</span></li>
+                    <li><input type="checkbox"><span>Infiere las temáticas que desarrolla un texto a partir de la información que contiene y el contexto.</span></li>
+                    <li><input type="checkbox"><span>Identifica la estructura de los textos que lee de acuerdo con su intención comunicativa.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Participa en espacios de discusión en los que adapta sus emisiones a los requerimientos de la situación comunicativa.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Participa en espacios de discusión grupal (conversatorios, exposiciones) teniendo en cuenta la temática.</span></li>
+                    <li><input type="checkbox"><span>Comprende el sentido de las discusiones para manifestar sus puntos de vista.</span></li>
+                    <li><input type="checkbox"><span>Conduce los temas de los discursos de acuerdo con el posible desarrollo de los mismos.</span></li>
+                    <li><input type="checkbox"><span>Utiliza expresiones, gestos y una entonación coherentes con el propósito comunicativo.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Produce textos atiendo a elementos como el tipo de público al que va dirigido, el contexto de circulación, y sus saberes previos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Define la tipología textual que empleará en la producción de un escrito.</span></li>
+                    <li><input type="checkbox"><span>Consulta diversos tipos de fuentes antes de redactar un texto.</span></li>
+                    <li><input type="checkbox"><span>Construye un plan de escritura para definir los contenidos de un texto.</span></li>
+                    <li><input type="checkbox"><span>Marca la tilde en las palabras agudas, graves y esdrújulas.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-4" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-4')">Calcular Resultados para 4º Grado</button>
+        </div>
+
+        <!-- Contenido de 5º Grado -->
+        <div id="grade-5" class="grade-content">
+            <h2>Diagnóstico para Quinto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Utiliza la información que recibe de los medios de comunicación para participar en espacios discursivos de opinión.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Caracteriza los elementos constitutivos de la comunicación.</span></li>
+                    <li><input type="checkbox"><span>Reconoce los roles desempeñados por los sujetos que participan en las emisiones de los medios.</span></li>
+                    <li><input type="checkbox"><span>Dialoga con sus compañeros sobre el sentido de los mensajes emitidos por los medios.</span></li>
+                    <li><input type="checkbox"><span>Selecciona la información de acuerdo con el formato en que ha sido presentada.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Interpreta mensajes directos e indirectos en algunas imágenes, símbolos o gestos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Infiere el significado del lenguaje gestual y corporal de emoticones, gestos, fotografías, etc.</span></li>
+                    <li><input type="checkbox"><span>Compara manifestaciones artísticas de acuerdo con sus características y las visiones de mundo.</span></li>
+                    <li><input type="checkbox"><span>Identifica la coherencia de las imágenes en los textos representados con ellas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende los roles que asumen los personajes en las obras literarias y su relación con la temática y la época.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Establece diferencias entre narrador y autor, en los textos que lee y escribe.</span></li>
+                    <li><input type="checkbox"><span>Reconoce las temáticas de los textos literarios que lee para relacionarlas con su contexto cotidiano.</span></li>
+                    <li><input type="checkbox"><span>Identifica las características de los géneros literarios y establece nexos entre sus elementos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Reconoce en la lectura de los distintos géneros literarios diferentes posibilidades de recrear y ampliar su visión de mundo.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Expresa en sus escritos la experiencia literaria que ha consolidado a partir de los textos.</span></li>
+                    <li><input type="checkbox"><span>Conoce diferentes culturas a partir de la lectura de textos literarios.</span></li>
+                    <li><input type="checkbox"><span>Deduce las semejanzas y diferencias de los géneros literarios a través de los textos que lee y escribe.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Comprende el sentido global de los mensajes, a partir de la relación entre la información explícita e implícita.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Asume una postura crítica y respetuosa frente a los mensajes que circulan en su medio.</span></li>
+                    <li><input type="checkbox"><span>Prevé los contenidos del mensaje de un emisor a partir de sus entonaciones y la manera como organiza un discurso.</span></li>
+                    <li><input type="checkbox"><span>Comprende la diferencia de diversos espacios de expresión oral (mesa redonda, panel, foro, debate).</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Identifica la intención comunicativa de los textos con los que interactúa a partir del análisis de su contenido y estructura.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce la función social de los textos que lee y las visiones de mundo que proponen.</span></li>
+                    <li><input type="checkbox"><span>Aplica estrategias de comprensión a distintos tipos de texto que lee.</span></li>
+                    <li><input type="checkbox"><span>Organiza de forma jerárquica los contenidos de un texto en relación con la forma en que son presentados.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Construye textos orales atendiendo a los contextos de uso, a los posibles interlocutores y a las líneas temáticas pertinentes.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce los momentos adecuados para intervenir y para dar la palabra a los interlocutores.</span></li>
+                    <li><input type="checkbox"><span>Construye saberes con otros a través de espacios de intercambio oral.</span></li>
+                    <li><input type="checkbox"><span>Ordena la información en secuencias lógicas acordes con la situación comunicativa.</span></li>
+                    <li><input type="checkbox"><span>Articula con claridad los sonidos del discurso y lee de manera fluida.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Produce textos verbales y no verbales a partir de los planes textuales que elabora según la tipología a desarrollar.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Establece relaciones de coherencia entre los conceptos, el tipo de texto y la intención comunicativa.</span></li>
+                    <li><input type="checkbox"><span>Elabora planes textuales que garantizan la progresión de las ideas que articula en un escrito.</span></li>
+                    <li><input type="checkbox"><span>Emplea técnicas para la organización de ideas como esquemas y mapas mentales.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-5" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-5')">Calcular Resultados para 5º Grado</button>
+        </div>
+
+    </div>
+
+    <script>
+        function showGrade(gradeId) {
+            // Ocultar todo el contenido de los grados
+            const allGrades = document.querySelectorAll('.grade-content');
+            allGrades.forEach(grade => {
+                grade.classList.remove('active');
+            });
+
+            // Ocultar todas las cajas de resultados
+            const allResults = document.querySelectorAll('.results-box');
+            allResults.forEach(box => {
+                box.style.display = 'none';
+            });
+            
+            // Mostrar el contenido del grado seleccionado
+            const selectedGrade = document.getElementById(gradeId);
+            selectedGrade.classList.add('active');
+
+            // Actualizar el botón activo
+            const allButtons = document.querySelectorAll('.nav-buttons button');
+            allButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            const activeButton = document.querySelector(`.nav-buttons button[onclick="showGrade('${gradeId}')"]`);
+            activeButton.classList.add('active');
+        }
+
+        function calculateResults(gradeId) {
+            const gradeContainer = document.getElementById(gradeId);
+            const checkboxes = gradeContainer.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            let achieved = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    achieved++;
+                }
+            });
+
+            const percentage = total > 0 ? (achieved / total * 100).toFixed(1) : 0;
+            
+            const buttonText = document.querySelector(`.nav-buttons button[onclick="showGrade('${gradeId}')"]`).innerText;
+            const resultsBox = document.getElementById(`results-${gradeId}`);
+            resultsBox.innerHTML = `Resultados para ${buttonText}: <br> <strong>${achieved} de ${total} evidencias logradas (${percentage}%)</strong>`;
+            resultsBox.style.display = 'block';
+        }
+
+        // Inicializar la vista para mostrar el primer grado por defecto
+        document.addEventListener('DOMContentLoaded', () => {
+            showGrade('grade-1');
+        });
+    </script>
+
+</body>
+</html>

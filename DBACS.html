@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Diagnóstico - DBA Ciencias Sociales (1º a 5º)</title>
+    <style>
+        /* --- Estilos Base --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #c0392b; /* Tono rojo/naranja */
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+            font-size: 2em;
+        }
+         h2 {
+            color: #34495e;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Permite que los botones pasen a la siguiente línea */
+            gap: 10px; /* Espacio entre botones */
+            margin-bottom: 25px;
+        }
+        .nav-buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #e74c3c;
+            background-color: #fff;
+            color: #e74c3c;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-buttons button.active, .nav-buttons button:hover {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        .grade-content {
+            display: none;
+        }
+        .grade-content.active {
+            display: block;
+        }
+        .dba-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .dba-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start; /* Alinea al inicio para textos largos */
+        }
+        input[type="checkbox"] {
+            margin-right: 12px;
+            flex-shrink: 0; /* Evita que el checkbox se encoja */
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 4px;
+        }
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #d35400;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .calculate-btn:hover {
+            background-color: #a04000;
+        }
+        .results-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #d35400;
+            background-color: #fdebd0;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* --- Estilos para Móviles (Mobile-Friendly) --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Menos espacio en los bordes */
+            }
+            .container {
+                padding: 15px; /* Menos relleno en el contenedor principal */
+            }
+            h1 {
+                font-size: 1.6em; /* Título principal más pequeño */
+            }
+            h2 {
+                font-size: 1.3em; /* Títulos de grado más pequeños */
+            }
+            .nav-buttons button {
+                font-size: 14px; /* Botones ligeramente más pequeños */
+                flex-grow: 1; /* Opcional: hace que los botones llenen el espacio */
+            }
+             li {
+                font-size: 0.95em; /* Texto de la lista un poco más pequeño */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Herramienta de Diagnóstico de Ciencias Sociales</h1>
+        <p style="text-align:center;">Basado en los Derechos Básicos de Aprendizaje (DBA) de Colombia V.1</p>
+
+        <div class="nav-buttons">
+            <button onclick="showGrade('grade-1')" class="active">1er Grado</button>
+            <button onclick="showGrade('grade-2')">2º Grado</button>
+            <button onclick="showGrade('grade-3')">3er Grado</button>
+            <button onclick="showGrade('grade-4')">4º Grado</button>
+            <button onclick="showGrade('grade-5')">5º Grado</button>
+        </div>
+
+        <!-- Contenido de 1er Grado -->
+        <div id="grade-1" class="grade-content active">
+            <h2>Diagnóstico para Primer Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Se ubica en el espacio que habita teniendo como referencia su propio cuerpo y los puntos cardinales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Relaciona su izquierda-derecha, adelante-atrás con los puntos cardinales, al ubicar, en representaciones gráficas de la escuela, lugares como rectoría, cafetería, etc.</span></li>
+                    <li><input type="checkbox"><span>Dibuja las instituciones sociales (deportivas, educativas, religiosas, políticas) existentes en su barrio, vereda o lugar donde vive.</span></li>
+                    <li><input type="checkbox"><span>Localiza en representaciones gráficas de su barrio, vereda o lugar donde vive, algunos referentes (tienda, iglesia, parque, escuela) teniendo en cuenta los puntos cardinales.</span></li>
+                    <li><input type="checkbox"><span>Describe verbalmente el recorrido que realiza entre su casa y la institución educativa, señalando lugares representativos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Describe las características del paisaje geográfico del barrio, vereda o lugar donde vive, sus componentes y formas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce las diferentes formas de relieve en su entorno geográfico (costas, islas, montañas, valles, llanuras, mesetas).</span></li>
+                    <li><input type="checkbox"><span>Diferencia los estados del tiempo atmosférico de acuerdo con las sensaciones de calor y frío y los momentos de lluvia y sequía.</span></li>
+                    <li><input type="checkbox"><span>Identifica obras de infraestructura en su comunidad y expresa las ventajas que estas traen.</span></li>
+                    <li><input type="checkbox"><span>Representa de diferentes maneras, problemas ambientales que afectan el entorno de su comunidad.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Describe el tiempo personal y se sitúa en secuencias de eventos propios y sociales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Nombra ordenadamente los días de la semana y los meses del año.</span></li>
+                    <li><input type="checkbox"><span>Diferencia el ayer, el hoy y el mañana desde las actividades cotidianas y la duración de estas en horas y minutos mediante la lectura del reloj.</span></li>
+                    <li><input type="checkbox"><span>Identifica los miembros de su familia y verbaliza quiénes nacieron antes o después de él.</span></li>
+                    <li><input type="checkbox"><span>Recuerda las fechas de los cumpleaños de sus familiares y compañeros de clase más cercanos, diferenciando las edades entre ellos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Reconoce la noción de cambio a partir de las transformaciones que ha vivido en los últimos años a nivel personal, de su familia y del entorno.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Relata los principales acontecimientos sociales ocurridos en el aula de clase, diferenciando el antes y el ahora.</span></li>
+                    <li><input type="checkbox"><span>Señala las transformaciones recientes observadas en el entorno físico de su comunidad y el para qué se realizaron.</span></li>
+                    <li><input type="checkbox"><span>Describe aquellas organizaciones sociales a las que pertenece en su comunidad: familia, colegio y vecindario.</span></li>
+                    <li><input type="checkbox"><span>Plantea preguntas acerca de sucesos destacados que han tenido lugar en su comunidad.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Reconoce su individualidad y su pertenencia a los diferentes grupos sociales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Expresa algunas características físicas y emocionales que lo hacen un ser único.</span></li>
+                    <li><input type="checkbox"><span>Compara similitudes y diferencias entre sus gustos, costumbres y formas de comunicarse, con los demás integrantes del salón de clase.</span></li>
+                    <li><input type="checkbox"><span>Reconoce de sí mismo, de sus compañeros y de sus familiares aquellas cualidades que le ayudan a estar mejor entre los demás.</span></li>
+                    <li><input type="checkbox"><span>Reconoce las costumbres y tradiciones culturales de su comunidad mediante los relatos de los abuelos y personas mayores.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Comprende cambios en las formas de habitar de los grupos humanos, desde el reconocimiento de los tipos de vivienda que se encuentran en su contexto.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Señala los lugares de procedencia de su familia y comprende cómo llegaron a su vivienda actual.</span></li>
+                    <li><input type="checkbox"><span>Nombra los materiales utilizados en la construcción de la casa donde vive y la distribución de las habitaciones que hay en ella.</span></li>
+                    <li><input type="checkbox"><span>Identifica las viviendas que se destacan en su comunidad, que son patrimonio y deben conservarse.</span></li>
+                    <li><input type="checkbox"><span>Reconoce el valor de la vivienda como el espacio donde tiene lugar su hogar y donde recibe seguridad y cuidado de su familia.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Participa en la construcción de acuerdos básicos sobre normas para el logro de metas comunes en su contexto cercano y se compromete con su cumplimiento.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Presenta sus ideas, intereses y sentimientos frente a las normas establecidas en la familia, en el salón de clase y otros espacios.</span></li>
+                    <li><input type="checkbox"><span>Expresa sus opiniones y colabora activamente en la construcción de los acuerdos grupales para la convivencia.</span></li>
+                    <li><input type="checkbox"><span>Plantea alternativas de solución frente a situaciones conflictivas en su familia y salón de clase.</span></li>
+                    <li><input type="checkbox"><span>Reconoce la importancia del trabajo en equipo para el logro de las metas comunes.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Establece relaciones de convivencia desde el reconocimiento y el respeto de sí mismo y de los demás.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Expresa el valor de sí mismo y de cada uno de los integrantes de la clase, explicando aquello que los diferencia y los identifica.</span></li>
+                    <li><input type="checkbox"><span>Expresa aquello que lo hace igual a los demás en la institución, desde el conocimiento y el respeto a los deberes y derechos.</span></li>
+                    <li><input type="checkbox"><span>Identifica situaciones de maltrato en su entorno y sabe a quiénes acudir para pedir ayuda y protección.</span></li>
+                    <li><input type="checkbox"><span>Participa de acciones que fomentan la sana convivencia en el entorno familiar y escolar.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-1" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-1')">Calcular Resultados para 1er Grado</button>
+        </div>
+
+        <!-- Contenido de 2º Grado -->
+        <div id="grade-2" class="grade-content">
+            <h2>Diagnóstico para Segundo Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende que el paisaje que vemos es resultado de las acciones humanas que se realizan en un espacio geográfico y que por esta razón, dicho paisaje cambia.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica las formas del relieve en la superficie terrestre (montaña, valle, llanura, etc.) y nombra las que observa en su localidad.</span></li>
+                    <li><input type="checkbox"><span>Expresa sus apreciaciones sobre los paisajes que observa en fotografías, folletos, revistas, periódicos y señala aquellos que prefiere.</span></li>
+                    <li><input type="checkbox"><span>Traza las formas básicas del paisaje de su municipio a través de dibujos y maquetas.</span></li>
+                    <li><input type="checkbox"><span>Explica los cambios en el paisaje del municipio debido a cultivos, construcciones, carreteras, etc.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Reconoce los puntos cardinales y los usa para orientarse en el desplazamiento de un lugar a otro.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Establece relaciones entre el espacio físico del salón de clases y otros espacios de la institución educativa a través de dibujos, utilizando los puntos cardinales.</span></li>
+                    <li><input type="checkbox"><span>Traza las rutas seguidas por algunos de sus compañeros para llegar a la escuela y las representa en un dibujo.</span></li>
+                    <li><input type="checkbox"><span>Mide distancias reales entre varios lugares, con pasos y otras medidas, identificando la distancia (cerca o lejos).</span></li>
+                    <li><input type="checkbox"><span>Da orientaciones espaciales verbalmente para llegar a un lugar específico, utilizando expresiones de lateralidad y los puntos cardinales.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende la importancia de las fuentes históricas para la construcción de la memoria individual, familiar y colectiva.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe las características de la conformación de su familia antes de su nacimiento.</span></li>
+                    <li><input type="checkbox"><span>Reconoce las procedencias y los recorridos de los integrantes de su núcleo familiar antes de llegar al municipio donde viven, a través de relatos.</span></li>
+                    <li><input type="checkbox"><span>Establece secuencias de datos históricos a nivel personal y familiar desde la lectura de su registro civil de nacimiento y elabora un árbol genealógico.</span></li>
+                    <li><input type="checkbox"><span>Indaga por los lugares de origen y las razones de los desplazamientos de la población en su comunidad.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Explica cambios y continuidades en los medios empleados por las personas para transportarse en su municipio, vereda o lugar donde vive.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Diferencia los cambios vividos en los medios de transporte en su entorno cercano, a partir de relatos de su familia.</span></li>
+                    <li><input type="checkbox"><span>Clasifica las formas de transportarse de las personas según el medio utilizado.</span></li>
+                    <li><input type="checkbox"><span>Describe el medio de transporte que más usa para llegar o salir de su casa y expone sus ventajas y desventajas.</span></li>
+                    <li><input type="checkbox"><span>Representa gráficamente la movilidad en su comunidad e identifica sus ventajas y desventajas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Analiza las actividades económicas de su entorno y el impacto de estas en la comunidad.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica los trabajos u oficios que las personas de su comunidad realizan para obtener su sustento y el de la familia.</span></li>
+                    <li><input type="checkbox"><span>Describe las actividades económicas que realizan los adultos en su hogar y los beneficios que estas traen.</span></li>
+                    <li><input type="checkbox"><span>Compara los oficios que los abuelos realizaban anteriormente respecto de cómo se realizan hoy y diferencia los trabajos de zonas urbanas y rurales.</span></li>
+                    <li><input type="checkbox"><span>Reconoce experiencias donde algunos niños son explotados laboralmente y expresa razones para rechazar estas situaciones.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Compara las características de las viviendas de su municipio, vereda o lugar donde vive con las de otros lugares.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce características de las viviendas rurales y urbanas a partir de los materiales utilizados para su construcción.</span></li>
+                    <li><input type="checkbox"><span>Describe y diferencia características de las viviendas de los grupos étnicos, a partir de la lectura de imágenes.</span></li>
+                    <li><input type="checkbox"><span>Identifica los cambios que se dan en las viviendas con el paso del tiempo.</span></li>
+                    <li><input type="checkbox"><span>Describe las ventajas y desventajas que representa tener vivienda en zona urbana o rural.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Reconoce la organización territorial en su municipio, desde: comunas, corregimientos, veredas, localidades y territorios indígenas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica el croquis de su municipio y lo diferencia entre los demás municipios del departamento.</span></li>
+                    <li><input type="checkbox"><span>Ubica las comunas, corregimientos, etc. en los que está organizado el territorio de su municipio, teniendo en cuenta los puntos cardinales.</span></li>
+                    <li><input type="checkbox"><span>Nombra topónimos (nombres propios de lugares geográficos) en su municipio y diferencia su ubicación en el medio urbano o rural.</span></li>
+                    <li><input type="checkbox"><span>Diferencia la organización de grupos pequeños como la familia, con las de los grupos más grandes como resguardo, territorios afrocolombianos y municipio.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Reconoce y rechaza situaciones de exclusión o discriminación en su familia, entre sus amigos y en los compañeros del salón de clase.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe diversas características de los grupos humanos (etnia, edad, religión, género) y explica aquello que más le gusta de sus compañeros.</span></li>
+                    <li><input type="checkbox"><span>Establece semejanzas y diferencias entre los alimentos preferidos y en las preferencias en los juegos entre los compañeros del grupo.</span></li>
+                    <li><input type="checkbox"><span>Expresa sus sentimientos cuando es discriminado o aceptado y reconoce la importancia de conocer y aceptar a las personas.</span></li>
+                    <li><input type="checkbox"><span>Identifica las acciones que generan discriminación en su entorno y sabe a quién acudir para pedir ayuda.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-2" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-2')">Calcular Resultados para 2º Grado</button>
+        </div>
+
+        <!-- Contenido de 3er Grado -->
+        <div id="grade-3" class="grade-content">
+            <h2>Diagnóstico para Tercer Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende la importancia de los océanos y mares en la organización económica y social de los pueblos costeros en la actualidad.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica los nombres de los continentes y océanos, y reconoce las actividades que se realizan en las zonas costeras.</span></li>
+                    <li><input type="checkbox"><span>Diferencia los mares como porciones de los océanos y su importancia en la fijación de límites entre países.</span></li>
+                    <li><input type="checkbox"><span>Plantea preguntas sobre las problemáticas ambientales que viven los océanos y explica el impacto en las poblaciones costeras.</span></li>
+                    <li><input type="checkbox"><span>Relaciona la ubicación geográfica de su departamento/municipio con la presencia o no de costas, y reconoce sus ventajas y desventajas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Relaciona las características biogeográficas de su departamento, municipio, resguardo o lugar donde vive, con las actividades económicas que en ellos se realizan.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica la oferta de recursos naturales presentes en su región (suelo, clima, flora, fauna, agua).</span></li>
+                    <li><input type="checkbox"><span>Reconoce las actividades que se realizan en su región: agricultura, ganadería, pesca, industria, minería o servicios.</span></li>
+                    <li><input type="checkbox"><span>Describe las formas de organización social y económica utilizadas para la explotación de los recursos naturales.</span></li>
+                    <li><input type="checkbox"><span>Expresa por qué en espacios con determinados climas no se cuenta con ciertos productos y destaca la importancia del trabajo de quienes producen alimentos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Explica las acciones humanas que han incidido en las transformaciones del territorio asociadas al número de habitantes e infraestructura.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce los cambios y/o permanencias en espacios como la escuela, la plaza principal y el mercado.</span></li>
+                    <li><input type="checkbox"><span>Diferencia cambios dados en el territorio local por la construcción de obras públicas (carreteras, parques, acueducto, etc.).</span></li>
+                    <li><input type="checkbox"><span>Indaga sobre el aumento o disminución de la población en su departamento/municipio, a partir de diferentes fuentes.</span></li>
+                    <li><input type="checkbox"><span>Identifica problemas sociales relevantes en la población, originados en el uso de los recursos naturales.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Comprende el legado de los grupos humanos en la gastronomía, la música y el paisaje de la región, municipio, resguardo o lugar donde vive.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica en su entorno objetos, herramientas, construcciones y documentos que brindan información acerca del pasado de su región.</span></li>
+                    <li><input type="checkbox"><span>Describe costumbres y tradiciones que le permiten reconocerse como miembro de un grupo poblacional a través de la historia oral.</span></li>
+                    <li><input type="checkbox"><span>Compara las fiestas que se celebran en diferentes municipios de su departamento (origen, propósito, duración, participantes).</span></li>
+                    <li><input type="checkbox"><span>Describe la diversidad en la gastronomía de diferentes regiones o provincias que conforman su departamento.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Comprende la importancia del tiempo en la organización de las actividades sociales, económicas y culturales en su comunidad.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe el tiempo dedicado en su familia a actividades como trabajar, estudiar, viajar, jugar, etc.</span></li>
+                    <li><input type="checkbox"><span>Organiza las actividades personales y familiares con base en el uso del calendario.</span></li>
+                    <li><input type="checkbox"><span>Compara las actividades escolares y familiares del año pasado con las que realiza actualmente y expresa las que quiere hacer el próximo año.</span></li>
+                    <li><input type="checkbox"><span>Elabora esquemas con la distribución del tiempo dedicado en procesos de producción y/o extracción de un producto típico en su región.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Analiza las contribuciones de los grupos humanos que habitan en su departamento/municipio, a partir de sus características culturales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Caracteriza aquellos grupos humanos que habitan en su región (afrodescendientes, raizales, blancos, indígenas, gitanos y/o mestizos).</span></li>
+                    <li><input type="checkbox"><span>Describe las expresiones culturales de cada uno de los grupos humanos identificados en su departamento/municipio.</span></li>
+                    <li><input type="checkbox"><span>Reconoce la diversidad cultural como una característica del pueblo colombiano y explica los aportes de los diferentes grupos humanos.</span></li>
+                    <li><input type="checkbox"><span>Elabora conclusiones sobre la situación social y económica de los indígenas en su región usando diferentes fuentes.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Comprende la importancia de participar en las decisiones de su comunidad cercana (institución educativa) mediante la elección del gobierno escolar.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica los mecanismos de elección del gobierno escolar y la importancia de elegir y ser elegido.</span></li>
+                    <li><input type="checkbox"><span>Reconoce el papel que cumplen los representantes de los estudiantes y el consejo estudiantil en la vida de la institución.</span></li>
+                    <li><input type="checkbox"><span>Compara las propuestas que presentan los diferentes candidatos a ocupar los cargos de personero estudiantil.</span></li>
+                    <li><input type="checkbox"><span>Explica la organización y el funcionamiento del consejo directivo de su institución educativa.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Comprende la estructura y el funcionamiento democrático a nivel del departamento como entidad política, administrativa y jurídica.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Diferencia los órganos y las funciones del poder público que tiene el departamento de los que tiene el municipio.</span></li>
+                    <li><input type="checkbox"><span>Explica la importancia del gobierno departamental en el mejoramiento de las condiciones de vida de los ciudadanos.</span></li>
+                    <li><input type="checkbox"><span>Emite sus opiniones frente a las problemáticas observadas en los procesos de elección de cargos políticos en la región.</span></li>
+                    <li><input type="checkbox"><span>Propone acciones que pueden desarrollar las instituciones departamentales para fortalecer la convivencia y la paz en las comunidades.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-3" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-3')">Calcular Resultados para 3er Grado</button>
+        </div>
+
+        <!-- Contenido de 4º Grado -->
+        <div id="grade-4" class="grade-content">
+            <h2>Diagnóstico para Cuarto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende la importancia de los límites geográficos y el establecimiento de las fronteras en la organización de los territorios.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce los límites geográficos de Colombia a partir de la lectura de un mapa político.</span></li>
+                    <li><input type="checkbox"><span>Describe actividades económicas y culturales que se dan entre los países que comparten fronteras con Colombia.</span></li>
+                    <li><input type="checkbox"><span>Explica la importancia de las fronteras colombianas como un punto de encuentro con los pueblos vecinos.</span></li>
+                    <li><input type="checkbox"><span>Contrasta los límites de los departamentos en que se divide el territorio colombiano con base en su ubicación geográfica y su extensión.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Diferencia las características geográficas del medio urbano y el medio rural, mediante el reconocimiento de la concentración de la población y el uso del suelo.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce los usos del suelo propios de las ciudades (comercial, industrial, etc.) y los del campo (agrícola, ganadero, etc.) a partir de mapas temáticos.</span></li>
+                    <li><input type="checkbox"><span>Identifica cambios generados en el uso del suelo tanto de las ciudades colombianas como de los espacios rurales en la última década.</span></li>
+                    <li><input type="checkbox"><span>Compara la cantidad de habitantes que viven en las ciudades colombianas con la población ubicada en los sectores rurales.</span></li>
+                    <li><input type="checkbox"><span>Expresa razones por las cuales actualmente la población se concentra más en las ciudades que en el campo.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende las razones de algunos cambios socioculturales en Colombia, motivados en los últimos años por el uso de la tecnología.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explica cómo era la vida de los pueblos cuando no existía la energía eléctrica, el acueducto, el alcantarillado y el servicio de teléfono, entre otros.</span></li>
+                    <li><input type="checkbox"><span>Relaciona el acceso a las tecnologías de la salud (hospitales, vacunas, medicamentos) con el bienestar de las familias.</span></li>
+                    <li><input type="checkbox"><span>Describe la importancia de los medios de comunicación en el desarrollo de la política y la cultura ciudadana del país.</span></li>
+                    <li><input type="checkbox"><span>Expresa sus opiniones sobre los cambios generados en las relaciones con su familia, desde el uso del teléfono, la TV y el Internet.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Analiza las características de las culturas ancestrales que a la llegada de los españoles, habitaban el territorio nacional.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Reconoce los diferentes pueblos indígenas pertenecientes a las familias lingüísticas (Chibcha, Caribe y Arawak) y los ubica espacialmente.</span></li>
+                    <li><input type="checkbox"><span>Compara las organizaciones sociales, económicas y religiosas de los pueblos ancestrales que habitaron el territorio colombiano.</span></li>
+                    <li><input type="checkbox"><span>Busca información en diferentes fuentes sobre los legados culturales de las comunidades indígenas y describe su situación actual.</span></li>
+                    <li><input type="checkbox"><span>Explica las razones por las cuales la población indígena se vio reducida con la llegada de los europeos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Evalúa la diversidad étnica y cultural del pueblo colombiano desde el reconocimiento de los grupos humanos existentes en el país.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica las características de los diferentes grupos humanos presentes en el territorio nacional.</span></li>
+                    <li><input type="checkbox"><span>Explica tradiciones y costumbres propias de los diversos grupos humanos del país (alimentación, vivienda, cosmovisión).</span></li>
+                    <li><input type="checkbox"><span>Describe el intercambio de saberes que históricamente se ha dado entre las diversas culturas existentes en Colombia.</span></li>
+                    <li><input type="checkbox"><span>Reconoce la importancia de preservar y fomentar las manifestaciones culturales de los diferentes grupos humanos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Comprende la importancia de la división de poderes en una democracia y la forma como funciona en Colombia.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Diferencia las ramas del poder público (Legislativa, Ejecutiva y Judicial), sus funciones e importancia en el equilibrio de poderes.</span></li>
+                    <li><input type="checkbox"><span>Reconoce la importancia del voto popular como mecanismo de participación para ejercer la democracia en Colombia.</span></li>
+                    <li><input type="checkbox"><span>Explica las responsabilidades de los cargos de elección popular (personeros, alcaldes, concejales, etc.).</span></li>
+                    <li><input type="checkbox"><span>Describe el papel de los órganos de control (procuraduría, contraloría y la defensoría del pueblo).</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Analiza los derechos que protegen la niñez y los deberes que deben cumplirse en una sociedad democrática para el desarrollo de una sana convivencia.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe los derechos de la niñez y asume una posición crítica frente a situaciones de discriminación y abuso.</span></li>
+                    <li><input type="checkbox"><span>Se identifica como un sujeto de derechos con unos deberes para con la comunidad educativa.</span></li>
+                    <li><input type="checkbox"><span>Reconoce las personas, instituciones y autoridades a las que puede acudir para la protección y defensa de sus derechos.</span></li>
+                    <li><input type="checkbox"><span>Describe situaciones en las que se ven vulnerados los derechos de la niñez y propone posibles soluciones para resolverlas.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Evalúa la importancia de satisfacer las necesidades básicas para el bienestar individual, familiar y colectivo.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica las necesidades básicas de todo ser humano (vivienda, alimentación, salud, educación, empleo) y explica si se satisfacen en su comunidad.</span></li>
+                    <li><input type="checkbox"><span>Clasifica en orden de importancia las necesidades básicas que presentan los habitantes del territorio colombiano en la actualidad.</span></li>
+                    <li><input type="checkbox"><span>Reconoce los factores económicos, sociales y políticos que influyen en la satisfacción de las necesidades básicas.</span></li>
+                    <li><input type="checkbox"><span>Expresa la responsabilidad que conlleva ser parte de una comunidad y sugiere posibles actuaciones para satisfacer las necesidades básicas.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-4" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-4')">Calcular Resultados para 4º Grado</button>
+        </div>
+
+        <!-- Contenido de 5º Grado -->
+        <div id="grade-5" class="grade-content">
+            <h2>Diagnóstico para Quinto Grado</h2>
+            <div class="dba-section">
+                <p class="dba-title">DBA 1: Comprende la organización territorial existente en Colombia y las particularidades geográficas de las regiones.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explica las formas de división territorial en Colombia: corregimiento, municipio, área metropolitana, departamento, región y territorio indígena.</span></li>
+                    <li><input type="checkbox"><span>Caracteriza los territorios colombianos denominados distritos y los diferencia de los municipios y de las ciudades capitales.</span></li>
+                    <li><input type="checkbox"><span>Diferencia las regiones geográficas en las que está dividido el territorio colombiano y las reconoce a partir de la lectura de mapas temáticos.</span></li>
+                    <li><input type="checkbox"><span>Relaciona la existencia de los pisos térmicos con los recursos naturales de cada región e identifica su incidencia en la diversidad de cultivos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 2: Comprende las ventajas que tiene para Colombia su posición geográfica y astronómica en relación con la economía nacional.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Identifica la posición geográfica y astronómica del país, sus límites y extensión de sus fronteras terrestres y marítimas, mediante mapas.</span></li>
+                    <li><input type="checkbox"><span>Establece relaciones entre latitud, longitud, altitud y la proximidad al mar, con la diversidad de climas en Colombia.</span></li>
+                    <li><input type="checkbox"><span>Explica la presencia de la órbita geoestacionaria y su importancia para las telecomunicaciones del país.</span></li>
+                    <li><input type="checkbox"><span>Plantea preguntas que le permiten reconocer la importancia que tiene para Colombia el hecho de contar con dos océanos.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 3: Comprende que los cambios en la comunicación originados por los avances tecnológicos han generado transformaciones en la forma como se relacionan las personas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explica la importancia que ha tenido la comunicación para la sociedad colombiana en el siglo XX y XXI.</span></li>
+                    <li><input type="checkbox"><span>Compara las características de los medios de comunicación que emplearon sus padres con los que él emplea en la actualidad.</span></li>
+                    <li><input type="checkbox"><span>Argumenta a partir de evidencias cómo el uso de diferentes medios de comunicación hace más fácil el acceso a la información y el aprendizaje.</span></li>
+                    <li><input type="checkbox"><span>Participa en discusiones sobre el uso adecuado y respetuoso de los medios de comunicación en la construcción de relaciones.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 4: Analiza el periodo colonial en la Nueva Granada a partir de sus organizaciones políticas, económicas y sociales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Compara el papel de las organizaciones políticas y administrativas del periodo colonial con las actuales instituciones en Colombia.</span></li>
+                    <li><input type="checkbox"><span>Diferencia las formas organizativas del trabajo en la Colonia (encomienda, mita, resguardo) y sus transformaciones en el sistema económico actual.</span></li>
+                    <li><input type="checkbox"><span>Explica las diferencias entre los grupos sociales existentes en la Nueva Granada durante el periodo colonial.</span></li>
+                    <li><input type="checkbox"><span>Examina el papel de la religión católica y su impacto en la vida cotidiana de las personas durante la época colonial.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 5: Analiza el origen y consolidación de Colombia como república y sus cambios políticos, económicos y sociales.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Plantea preguntas sobre los antecedentes que influenciaron el proceso de independencia de Colombia.</span></li>
+                    <li><input type="checkbox"><span>Explica los acontecimientos que permitieron el nacimiento de la República y cómo estos incidieron en la vida económica y social.</span></li>
+                    <li><input type="checkbox"><span>Reconoce los cambios de fronteras que ha experimentado Colombia desde comienzos del siglo XIX hasta la actualidad.</span></li>
+                    <li><input type="checkbox"><span>Relaciona la aparición de los partidos políticos en Colombia con las luchas ideológicas que se dieron a lo largo del siglo XIX.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 6: Analiza los cambios ocurridos en la sociedad colombiana en la primera mitad del siglo XX, asociados a la expansión de la industria y la comunicación.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explica los cambios sociales y tecnológicos (radio, prensa, ferrocarriles) que se dieron en la primera mitad del siglo XX y su incidencia.</span></li>
+                    <li><input type="checkbox"><span>Reconoce la influencia de los partidos políticos (liberal y conservador) en las dinámicas económicas y sociales de la época.</span></li>
+                    <li><input type="checkbox"><span>Identifica las consecuencias de los conflictos que afectaron la convivencia en la primera mitad del siglo XX (Guerra de los Mil Días, etc.).</span></li>
+                    <li><input type="checkbox"><span>Participa en debates y propone acciones para vivir en una sociedad pacífica y constructora de una cultura de paz.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 7: Comprende que en la sociedad colombiana existen derechos, deberes, principios y acciones para orientar y regular la convivencia de las personas.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Describe los beneficios o ventajas que conlleva vivir en un Estado democrático a través del estudio de la Constitución de 1991.</span></li>
+                    <li><input type="checkbox"><span>Identifica los derechos fundamentales contemplados en la Constitución y su aplicabilidad en la vida cotidiana.</span></li>
+                    <li><input type="checkbox"><span>Compara los derechos y deberes planteados en la Constitución con los del manual de convivencia de su institución.</span></li>
+                    <li><input type="checkbox"><span>Explica el valor que tiene conocer los derechos y los mecanismos constitucionales para reclamar su debido cumplimiento.</span></li>
+                </ul>
+            </div>
+            <div class="dba-section">
+                <p class="dba-title">DBA 8: Analiza el papel de las organizaciones sociales en la preservación y el reconocimiento de los Derechos Humanos.</p>
+                <ul>
+                    <li><input type="checkbox"><span>Explica las instituciones que defienden los Derechos Humanos y organizan proyectos en la comunidad (cabildos, juntas de acción comunal, etc.).</span></li>
+                    <li><input type="checkbox"><span>Reconoce la importancia de proteger la organización social y los derechos de las colectividades.</span></li>
+                    <li><input type="checkbox"><span>Describe el funcionamiento de las instituciones que protegen los Derechos Humanos en Colombia (Personería y Defensoría del Pueblo).</span></li>
+                    <li><input type="checkbox"><span>Participa en proyectos colectivos (Gobierno Escolar, ambientales, etc.) orientados a alcanzar el bien común.</span></li>
+                </ul>
+            </div>
+            <div id="results-grade-5" class="results-box" style="display:none;"></div>
+            <button class="calculate-btn" onclick="calculateResults('grade-5')">Calcular Resultados para 5º Grado</button>
+        </div>
+
+    </div>
+
+    <script>
+        function showGrade(gradeId) {
+            // Ocultar todo el contenido de los grados
+            const allGrades = document.querySelectorAll('.grade-content');
+            allGrades.forEach(grade => {
+                grade.classList.remove('active');
+            });
+
+            // Ocultar todas las cajas de resultados
+            const allResults = document.querySelectorAll('.results-box');
+            allResults.forEach(box => {
+                box.style.display = 'none';
+            });
+            
+            // Mostrar el contenido del grado seleccionado
+            const selectedGrade = document.getElementById(gradeId);
+            selectedGrade.classList.add('active');
+
+            // Actualizar el botón activo
+            const allButtons = document.querySelectorAll('.nav-buttons button');
+            allButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            const activeButton = document.querySelector(`.nav-buttons button[onclick="showGrade('${gradeId}')"]`);
+            activeButton.classList.add('active');
+        }
+
+        function calculateResults(gradeId) {
+            const gradeContainer = document.getElementById(gradeId);
+            const checkboxes = gradeContainer.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            let achieved = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    achieved++;
+                }
+            });
+
+            const percentage = total > 0 ? (achieved / total * 100).toFixed(1) : 0;
+            
+            // Extraer el nombre del grado del texto del botón para una mejor visualización
+            const buttonText = document.querySelector(`.nav-buttons button[onclick="showGrade('${gradeId}')"]`).innerText;
+            const resultsBox = document.getElementById(`results-${gradeId}`);
+            resultsBox.innerHTML = `Resultados para ${buttonText}: <br> <strong>${achieved} de ${total} evidencias logradas (${percentage}%)</strong>`;
+            resultsBox.style.display = 'block';
+        }
+
+        // Inicializar la vista para mostrar el primer grado por defecto
+        document.addEventListener('DOMContentLoaded', () => {
+            showGrade('grade-1');
+        });
+    </script>
+
+</body>
+</html>
